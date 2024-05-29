@@ -21,5 +21,8 @@
     <ClCompile Include="大题.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="二叉树递归操作.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

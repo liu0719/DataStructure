@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="二叉树递归操作.cpp" />
     <ClCompile Include="大题.cpp" />
     <ClCompile Include="线索二叉树.cpp" />
   </ItemGroup>

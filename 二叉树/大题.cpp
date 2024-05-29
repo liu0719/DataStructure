@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+/*+
 constexpr auto MaxLen = 100;
 //ÏßË÷¶þ²æÊ÷ 
 typedef struct ThreadNode {
@@ -476,3 +477,4 @@ int main(){
 	
 	printf("%d",Height(t));
 }
+*/

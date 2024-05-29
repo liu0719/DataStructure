@@ -1,0 +1,3 @@
+﻿  图.cpp
+E:\c\算法\图\图.cpp(70,2): warning C4091: “typedef ”: 没有声明变量时忽略“MGraph”的左侧
+  图.vcxproj -> E:\c\算法\图\x64\Debug\图.exe
