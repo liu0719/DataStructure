@@ -1,16 +1,17 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<windows.h>
 #define MaxSize 10
 typedef struct SNode {
 	int data;
 	int next;
-}SLinkList[MaxSize];//¶¨ÒåÁË³¤¶È¾Í²»¿É¸Ä±ä£¬ÈİÁ¿¹Ì¶¨£¬ÔçÆğ²»Ö§³ÖÖ¸ÕëµÄµÍ¼¶ÓïÑÔ£¬
-//ÈİÁ¿ĞèÒª¹Ì¶¨µÄ³¡¾°²Ù×÷ÏµÍ³µÄFAT Fat¾ÍÊÇ¾²Ì¬Á´±í
+}SLinkList[MaxSize];//å®šä¹‰äº†é•¿åº¦å°±ä¸å¯æ”¹å˜ï¼Œå®¹é‡å›ºå®šï¼Œæ—©èµ·ä¸æ”¯æŒæŒ‡é’ˆçš„ä½çº§è¯­è¨€ï¼Œ
+//å®¹é‡éœ€è¦å›ºå®šçš„åœºæ™¯æ“ä½œç³»ç»Ÿçš„FAT Fatå°±æ˜¯é™æ€é“¾è¡¨
 bool SInit(SLinkList& L) {
-	L->next = -1;//±íÍ·Îª¿Õ£¬ÆäËûÓÃ-2±íÊ¾¿Õ¡£
+	L->next = -1;//è¡¨å¤´ä¸ºç©ºï¼Œå…¶ä»–ç”¨-2è¡¨ç¤ºç©ºã€‚
 	L->data = 10;
 	for (int i = 1; i < MaxSize; i++) {
-		L[i].next = -2;//´ú±í¿ÕµÄ
+		L[i].next = -2;//ä»£è¡¨ç©ºçš„
 	}
 	return true;
 }
@@ -21,7 +22,7 @@ bool SIsEmpty(SLinkList& L) {
 	return false;
 }
 void SPrintList(SLinkList& L) {
-	printf("---¾²Ì¬Á´±í---\n");
+	printf("---é™æ€é“¾è¡¨---\n");
 	for (int i = 0; i < MaxSize; ++i) {
 		printf("SNode[%d].data = %d, SNode[%d].next = %d\n", i, L[i].data, i, L[i].next);
 	}
@@ -49,39 +50,41 @@ bool SInsert(SLinkList &L,int e) {
 	return true;
 	
 }
-//Ö¸¶¨Î»ÖÃ²åÈë
+//æŒ‡å®šä½ç½®æ’å…¥
 bool InsertPoint(SLinkList &L,int i,int e) {
 	int location = SMalloc_S(L);
 	if (location == -1) {
 		return false;
 	}
-	int index = 0;//µÚ¼¸¸öÔªËØ
-	for (int j=0; j < i-1; j++) {//ÒªĞŞ¸ÄÔªËØµÄÇ°Ò»¸ö£¬ĞŞ¸ÄËûµÄnext
-		index = L[index].next;//²»¶ÏÈ¥ÕÒÒªÉ¾³ıµÄÇ°Ò»¸öµÄÎ»ÖÃ
+	int index = 0;//ç¬¬å‡ ä¸ªå…ƒç´ 
+	for (int j=0; j < i-1; j++) {//è¦ä¿®æ”¹å…ƒç´ çš„å‰ä¸€ä¸ªï¼Œä¿®æ”¹ä»–çš„next
+		index = L[index].next;//ä¸æ–­å»æ‰¾è¦åˆ é™¤çš„å‰ä¸€ä¸ªçš„ä½ç½®
 	}
-	int temp = L[index].next;//next¸³¸øtemp
-	L[index].next = location;//next¸ÄÎªĞÂÔöµÄÔªËØÎ»ÖÃ
-	L[location].data = e;//ÔªËØÊı¾İ¼ÓÈë
-	L[location].next = temp;//ĞÂÔöµÄÔªËØµÄÏÂÒ»¸öÎªtemp
+	int temp = L[index].next;//nextèµ‹ç»™temp
+	L[index].next = location;//nextæ”¹ä¸ºæ–°å¢çš„å…ƒç´ ä½ç½®
+	L[location].data = e;//å…ƒç´ æ•°æ®åŠ å…¥
+	L[location].next = temp;//æ–°å¢çš„å…ƒç´ çš„ä¸‹ä¸€ä¸ªä¸ºtemp
 	return true;
 }
-//Ö¸¶¨É¾³ı£¬Òª°´ÔªËØµÄÁ´½ÓÉ¾³ı£¬²»ÄÜ°´ĞòºÅÉ¾³ı
+//æŒ‡å®šåˆ é™¤ï¼Œè¦æŒ‰å…ƒç´ çš„é“¾æ¥åˆ é™¤ï¼Œä¸èƒ½æŒ‰åºå·åˆ é™¤
 bool SDeletePoint(SLinkList& L, int i, int &e) {
 	if (i<1||i>MaxSize) {
 		return false;
 	}
-	int index = 0;//µÚ¼¸¸öÔªËØ
-	for (int j = 0; j < i - 1; j++) {//ÒªĞŞ¸ÄÔªËØµÄÇ°Ò»¸ö£¬ĞŞ¸ÄËûµÄnext
-		index = L[index].next;//²»¶ÏÈ¥ÕÒÒªÉ¾³ıµÄÇ°Ò»¸öµÄÎ»ÖÃ
+	int index = 0;//ç¬¬å‡ ä¸ªå…ƒç´ 
+	for (int j = 0; j < i - 1; j++) {//è¦ä¿®æ”¹å…ƒç´ çš„å‰ä¸€ä¸ªï¼Œä¿®æ”¹ä»–çš„next
+		index = L[index].next;//ä¸æ–­å»æ‰¾è¦åˆ é™¤çš„å‰ä¸€ä¸ªçš„ä½ç½®
 	}
-	int q = L[index].next;//q¼´Ê±ÒªÉ¾³ıµÄÔªËØ
-	L[index].next=L[q].next;//°ÑqÇ°Ò»¸öµÄnextÓÉÖ¸Ïòq±äÎªÖ¸ÏòqµÄÏÂÒ»¸ö
+	int q = L[index].next;//qå³æ—¶è¦åˆ é™¤çš„å…ƒç´ 
+	L[index].next=L[q].next;//æŠŠqå‰ä¸€ä¸ªçš„nextç”±æŒ‡å‘qå˜ä¸ºæŒ‡å‘qçš„ä¸‹ä¸€ä¸ª
 	e = L[q].data;
 	L[q].data = NULL;
-	L[q].next = -2;//Çå¿Õq
+	L[q].next = -2;//æ¸…ç©ºq
 	return true;
 }
 int main() {
+    // æ§åˆ¶å°è¾“å‡ºä¸­æ–‡ä¹±ç é—®é¢˜
+    SetConsoleOutputCP(65001);
 	SLinkList l;
 	SInit(l);
 	for (int i = 0; i < 5; i++)
@@ -104,4 +107,4 @@ int main() {
 	SDeletePoint(l, 3, e);
 	SPrintList(l);
 
-//}
+}

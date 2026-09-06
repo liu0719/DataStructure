@@ -1,11 +1,12 @@
 #include<stdio.h>
 #include<string.h>
+#include<windows.h>
 #define MaxLen 10
 typedef struct {
 	char ch[MaxLen];
 	int length;
 }SString;
-//ÇóKMPµÄnextÊı×é
+//æ±‚KMPçš„nextæ•°ç»„
 bool GetKmpNext(SString s, int next[]) {
 	if (s.length == 0) {
 		return false;
@@ -29,10 +30,10 @@ bool GetKmpNext(SString s, int next[]) {
 	return true;
 }
 void GetNext(SString s, int next[]) {
-	next[1] = 0; // ¹æ¶¨
-	// i: nextÊı×éµÄË÷Òı
-	// i: nextÊı×éµÄË÷Òı0053
-	// j: Ä£Ê½´®µÄË÷Òı
+	next[1] = 0; // è§„å®š
+	// i: nextæ•°ç»„çš„ç´¢å¼•
+	// i: nextæ•°ç»„çš„ç´¢å¼•0053
+	// j: æ¨¡å¼ä¸²çš„ç´¢å¼•
 	int i = 1, j = 0;
 	while (i < s.length) {
 		if (j == 0 || s.ch[i] == s.ch[j])
@@ -54,15 +55,15 @@ bool GetNextVal(int nextval[], int *next, SString s) {
 	}
 	return true;
 }
-//kmpÆ¥Åä
-int Index_Kmp(SString s, SString t, int next[]) {//nextÊı×é±êÖ¾×ÅÓö¼û²»ÏàµÈÊ±ÏÂÒ»´ÎjµÄÆ¥ÅäÎ»ÖÃ£¬i²»¶¯¡£
+//kmpåŒ¹é…
+int Index_Kmp(SString s, SString t, int next[]) {//nextæ•°ç»„æ ‡å¿—ç€é‡è§ä¸ç›¸ç­‰æ—¶ä¸‹ä¸€æ¬¡jçš„åŒ¹é…ä½ç½®ï¼Œiä¸åŠ¨ã€‚
 	int i = 1, j = 1;
 	while (i <= s.length&& j <= t.length) {
 		if (j == 0 || s.ch[i] == t.ch[j]) {
 			i++; j++;
 		}
 		else {
-			j = next[j];//¸ù¾İnextÊı×éÀ´ÒÆ¶¯
+			j = next[j];//æ ¹æ®nextæ•°ç»„æ¥ç§»åŠ¨
 		}
 	}
 	if (j > t.length) {
@@ -71,6 +72,8 @@ int Index_Kmp(SString s, SString t, int next[]) {//nextÊı×é±êÖ¾×ÅÓö¼û²»ÏàµÈÊ±ÏÂÒ
 	return 0;
 }
 int main() {
+    // è®¾ç½®æ§åˆ¶å°è¾“å‡ºä¸ºUTF-8ï¼Œè§£å†³ä¸­æ–‡ä¹±ç 
+    SetConsoleOutputCP(65001);  
 	SString s = { ' ','a','a','a','a','a','b' }; s.length = 6;
 	int next[8];
 	GetKmpNext(s, next);

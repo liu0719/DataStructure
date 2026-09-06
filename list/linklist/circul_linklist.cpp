@@ -1,25 +1,25 @@
 #include<stdio.h>
 #include<stdlib.h>
-//Ñ­»·µ¥Á´±í
+//å¾ªç¯å•é“¾è¡¨
 typedef struct LNode {
 	int data;
 	LNode* next;
 }LNode, * LinkList;
-//ÅĞ¿Õ
+//åˆ¤ç©º
 bool FIsEmpty(LinkList &L) {
 	if (L->next = L) {
 		return true;
 	}
 	return false;
 }
-//ÅĞÎ²
+//åˆ¤å°¾
 bool FIsTail(LinkList& L,LNode *p) {
 	if (p->next = L) {
 		return true;
 	}
 	return false;
 }
-//ºó²å
+//åæ’
 bool FInsertAfter(LinkList& L, LNode* p,int e) {
 	LNode* s = (LNode*)malloc(sizeof(LNode));
 	s->data = e;
@@ -27,7 +27,7 @@ bool FInsertAfter(LinkList& L, LNode* p,int e) {
 	p->next = s;
 	return true;
 }
-//¼Ù×°Ç°²å
+//å‡è£…å‰æ’
 bool FInsertBefore(LinkList& L, LNode* p, int e) {
 	LNode* s = (LNode*)malloc(sizeof(LNode));
 	s->data = e;
@@ -38,7 +38,7 @@ bool FInsertBefore(LinkList& L, LNode* p, int e) {
 	s->data = temp;
 	return true;
 }
-//ºóÉ¾
+//ååˆ 
 bool FDeleteAfter(LinkList& L, LNode* p, int e) {
 	LNode* q = p->next;
 	e= q->data ;
@@ -46,7 +46,7 @@ bool FDeleteAfter(LinkList& L, LNode* p, int e) {
 	free(q);
 	return true;
 }
-//É¾³ıÖ¸¶¨
+//åˆ é™¤æŒ‡å®š
 bool FDeleteAfter(LinkList& L, LNode* p) {
 	LNode* q = p->next;
 	p->data = q->data;
@@ -54,19 +54,19 @@ bool FDeleteAfter(LinkList& L, LNode* p) {
 	free(q);
 	return true;
 }
-//Ñ­»·Ë«Á´
+//å¾ªç¯åŒé“¾
 typedef struct DNode {
 	int data;
 	DNode* prior, * next;
 }DNode, * DLinkList;
-//ÅĞ¿Õ
+//åˆ¤ç©º
 bool IsEmpty(DLinkList& L) {
 	if (L->next = L) {
 		return true;
 	}
 	return false;
 }
-//ÅĞÎ²
+//åˆ¤å°¾
 bool FIsTail(DLinkList& L, DNode* p) {
 	if (p->next == L) {
 		return true;
@@ -74,8 +74,8 @@ bool FIsTail(DLinkList& L, DNode* p) {
 	return false;
 }
 
-//Ö¸¶¨½Úµãºó²åÈë
-bool FInsertAfter(DLinkList& L, DNode* p, int e) {//pÎªÖ¸¶¨½Úµã£¬eÎ´²åÈëÔªËØ
+//æŒ‡å®šèŠ‚ç‚¹åæ’å…¥
+bool FInsertAfter(DLinkList& L, DNode* p, int e) {//pä¸ºæŒ‡å®šèŠ‚ç‚¹ï¼Œeæœªæ’å…¥å…ƒç´ 
 	if (p == NULL) {
 		return false;
 	}
@@ -87,7 +87,7 @@ bool FInsertAfter(DLinkList& L, DNode* p, int e) {//pÎªÖ¸¶¨½Úµã£¬eÎ´²åÈëÔªËØ
 	p->next = s;
 	return true;
 }
-//Ö¸¶¨½ÚµãÇ°²åÈë
+//æŒ‡å®šèŠ‚ç‚¹å‰æ’å…¥
 bool FInsertBefore(DLinkList& L, DNode* p, int e) {
 	if (p == NULL) {
 		return false;
@@ -100,7 +100,7 @@ bool FInsertBefore(DLinkList& L, DNode* p, int e) {
 	p->prior = s;
 	return true;
 }
-//É¾³ıÖ¸¶¨½ÚµãpµÄºó¼Ì½Úµã
+//åˆ é™¤æŒ‡å®šèŠ‚ç‚¹pçš„åç»§èŠ‚ç‚¹
 bool FDeleteAfterNode(DLinkList& L, DNode* p) {
 	if (p == NULL ) {
 		return false;
@@ -111,7 +111,7 @@ bool FDeleteAfterNode(DLinkList& L, DNode* p) {
 	free(q);
 	return true;
 }
-//É¾³ıÖ¸¶¨½ÚµãpµÄÇ°Çı½Úµã
+//åˆ é™¤æŒ‡å®šèŠ‚ç‚¹pçš„å‰é©±èŠ‚ç‚¹
 bool FDeleteBeforeNode(DLinkList& L, DNode* p) {
 	if ( p == NULL ) {
 		return false;

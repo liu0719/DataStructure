@@ -1,6 +1,6 @@
-﻿#include<stdio.h>
+#include<stdio.h>
 #include<stdlib.h>
-/*
+#include<windows.h>
 typedef struct LNode{
     int data;
 	LNode *next;
@@ -8,7 +8,7 @@ typedef struct LNode{
 //带头节点
 //判空函数
 //p为指针，p->指向的就是p指向元素的位置，*p=a（p->data)==(a.data)
-bool LEmpty(LinkList L) {
+bool Empty(LinkList L) {
 	if (L->next == NULL) {
 		return true;
 	}
@@ -17,12 +17,12 @@ bool LEmpty(LinkList L) {
 	}
 }
 //带头节点初始化
-void LInitLinkListHead(LinkList &L) {
+void InitLinkListHead(LinkList &L) {
 	L = (LNode *)malloc(sizeof(LNode));
 	L->next = NULL;
 }
 //长度，就按下标算，头结点为零
-int LLengthOfList(LinkList &L) {
+int LengthOfList(LinkList &L) {
 	int i = 0; LNode* p = L;
 	while (p->next != NULL) {
 		p = p->next;
@@ -31,7 +31,7 @@ int LLengthOfList(LinkList &L) {
 	return i;
 }
 //打印函数
-void LPrintList(LinkList &L) {
+void PrintList(LinkList &L) {
 	LNode *p = L->next;
 	while (p != NULL) {
 		printf("-->%d", p->data);
@@ -42,7 +42,7 @@ void LPrintList(LinkList &L) {
 	return;
 }
 //按位置查找
-LNode* LSelectByLocation(LinkList& L, int i) {//i为插入的位置，
+LNode* SelectByLocation(LinkList& L, int i) {//i为插入的位置，
 	LNode* p = L; int j = 0;//同打印按下标来
 	while (p != NULL && j < i) {
 		p = p->next;
@@ -51,7 +51,7 @@ LNode* LSelectByLocation(LinkList& L, int i) {//i为插入的位置，
 	return p;
 }
 //按值查找
-LNode* LSelectByValue(LinkList& L, int e) {//e是查找的元素
+LNode* SelectByValue(LinkList& L, int e) {//e是查找的元素
 	LNode* p = L;
 	while (p != NULL && p->data != e) {//找到就停止，为空也停止
 		p = p->next;
@@ -59,7 +59,7 @@ LNode* LSelectByValue(LinkList& L, int e) {//e是查找的元素
 	return p;
 }
 //按位置添加节点
-bool LInsertLNode(LinkList& L, int i, LNode* s) {
+bool InsertLNode(LinkList& L, int i, LNode* s) {
 	LNode* p = L; int j = 0;
 	while (p != NULL && j < i - 1) {//找到目标节点的前一个，按下标来，所以i-1
 		p = p->next;
@@ -74,7 +74,7 @@ bool LInsertLNode(LinkList& L, int i, LNode* s) {
 
 }
 //按位置删除节点
-bool LDeleteLNode(LinkList& L, int i) {
+bool DeleteLNode(LinkList& L, int i) {
 	LNode *p = L; int j = 0;
 	while (p != NULL && j < i - 1) {//找到要删除的前一个位置
 		p = p->next;
@@ -89,7 +89,7 @@ bool LDeleteLNode(LinkList& L, int i) {
 	return true;
 }
 //修改链表
-bool LUpdataList(LinkList& L, int i, int e) {
+bool UpdataList(LinkList& L, int i, int e) {
 	LNode* p = L; int j = 0;
 	while (p != NULL && i < j) {
 		p = p->next;
@@ -102,7 +102,7 @@ bool LUpdataList(LinkList& L, int i, int e) {
 	return true;
 }
 //删除节点*P
-bool LDeletePointNode(LinkList &L,LNode *p) {
+bool DeletePointNode(LinkList &L,LNode *p) {
 	if (p->next == NULL) {
 		return false;
 	}
@@ -113,7 +113,7 @@ bool LDeletePointNode(LinkList &L,LNode *p) {
 	return true;
 }
 //在p节点前插入
-bool LInsertbefore(LinkList& L, LNode* p,LNode *s) {
+bool Insertbefore(LinkList& L, LNode* p,LNode *s) {
 	s->next = p->next;//在p后新建一个结点，当做后插，然后交换p和s的值
 	p->next = s;
 	int temp = p->data;
@@ -122,11 +122,11 @@ bool LInsertbefore(LinkList& L, LNode* p,LNode *s) {
 	return true;
 }
 //不带头结点
-void LInitLinkList(LinkList& L) {
+void InitLinkList(LinkList& L) {
 	L = NULL;
 }
 //头插实现原链表倒置
-LinkList LHeadInsert(LinkList &L) {
+LinkList HeadInsert(LinkList &L) {
 	LNode* s; int x;
 	L = (LNode*)malloc(sizeof(LNode));//指针变量要申请空间进行初始化
 	printf("请输入头插法建立的链表数字\n");
@@ -143,7 +143,7 @@ LinkList LHeadInsert(LinkList &L) {
 
 }
 //尾插
-LinkList LTailInsert(LinkList &L) {
+LinkList TailInsert(LinkList &L) {
 	L = (LNode*)malloc(sizeof(LNode));
 	LNode* s , * r = L; int x;
 	printf("请输入尾插法建立的链表数字\n");
@@ -160,6 +160,8 @@ LinkList LTailInsert(LinkList &L) {
 	return L;
 }
 int main() {
+    // 控制台输出中文乱码问题
+    SetConsoleOutputCP(65001);
 	LinkList L1;
 	//InitLinkListHead(L1);
 	L1=TailInsert(L1);
@@ -189,6 +191,5 @@ int main() {
 	printf("删除后\n");
 	PrintList(l);
 	printf("--------------双链表-----------");
-	testDNode();
 	return 0;
-}*/
+}

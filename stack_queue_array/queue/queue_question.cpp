@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+#include<windows.h>
 //第五题
 typedef struct LNode {//链式结点
 	int data;
@@ -72,6 +72,8 @@ bool PrintLQueue(LQueue &q) {
 	return 0;
 }
 int main() {
+    // 中文乱码问题
+    SetConsoleOutputCP(65001); // 设置控制台输出为 UTF-8 编
 	LQueue q;
 	InitLQueue(q);
 	printf("队列是否为空：%d\n", IsEmpty(q));

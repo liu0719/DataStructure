@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<windows.h>
 typedef struct LNode {
 	int data;
 	LNode* next;
@@ -9,16 +10,16 @@ typedef struct DNode {
 	int freq;
 	DNode* prior, * next;
 }DNode, * DLinkList;
-//Î²²å·¨ 
+//å°¾æ’æ³• 
 DLinkList DTailInsert(DLinkList& L) {
 	L = (DNode*)malloc(sizeof(DNode));
 	L->next = NULL; L->prior = NULL;
-	DNode* R = L;//¶¨ÒåÎ²Ö¸Õë
-	while (R->next != NULL) {//Ñ­»·µ½×îºóÒ»¸öÊı¾İ
+	DNode* R = L;//å®šä¹‰å°¾æŒ‡é’ˆ
+	while (R->next != NULL) {//å¾ªç¯åˆ°æœ€åä¸€ä¸ªæ•°æ®
 		R = R->next;
 	}
 	int x;
-	printf("Ë«Á´±íÎ²²å·¨£¬ÇëÊäÈë\n");
+	printf("åŒé“¾è¡¨å°¾æ’æ³•ï¼Œè¯·è¾“å…¥\n");
 	scanf_s("%d", &x);
 	while (x != -1) {
 		DNode* s = (DNode*)malloc(sizeof(DNode));
@@ -28,14 +29,14 @@ DLinkList DTailInsert(DLinkList& L) {
 		s->prior = R;
 		R->next = s;
 		R = R->next;
-		printf("Ìí¼Ó³É¹¦£¬ÊäÈë-1ÍË³ö\n");
+		printf("æ·»åŠ æˆåŠŸï¼Œè¾“å…¥-1é€€å‡º\n");
 		scanf_s("%d", &x);
 	}
 	//L->prior = R;
 	//R->next = L;
 	return L;
 }
-//´òÓ¡º¯Êı
+//æ‰“å°å‡½æ•°
 void DPrintList(DLinkList& L) {
 	DNode* p = L->next;
 	while (p != NULL) {
@@ -45,64 +46,64 @@ void DPrintList(DLinkList& L) {
 	printf("\n");
 	return;
 }
-//Î²²å
+//å°¾æ’
 LinkList LTailInsert(LinkList& L) {
 	L = (LNode*)malloc(sizeof(LNode));
 	LNode* s, * r = L; int x;
-	printf("ÇëÊäÈëÎ²²å·¨½¨Á¢µÄÁ´±íÊı×Ö\n");
+	printf("è¯·è¾“å…¥å°¾æ’æ³•å»ºç«‹çš„é“¾è¡¨æ•°å­—\n");
 	scanf_s("%d", &x);
 	while (x != -1) {
-		s = (LNode*)malloc(sizeof(LNode));//ÒªÉêÇë¿Õ¼ä½øĞĞ³õÊ¼»¯
+		s = (LNode*)malloc(sizeof(LNode));//è¦ç”³è¯·ç©ºé—´è¿›è¡Œåˆå§‹åŒ–
 		s->data = x;
 		s->next = r->next;
 		r->next = s;
 		r = r->next;
-		printf("¼ÓÈë³É¹¦£¬ÊäÈë-1ÍË³ö\n");
+		printf("åŠ å…¥æˆåŠŸï¼Œè¾“å…¥-1é€€å‡º\n");
 		scanf_s("%d", &x);
 	}
 	r->next = NULL;
 	return L;
 }
-//ÎŞÍ·Î²²å
+//æ— å¤´å°¾æ’
 LinkList LTailInsertNoHead(LinkList& L) {
 	L = (LNode*)malloc(sizeof(LNode));
 	LNode* s, * r = L; int x;
-	printf("ÇëÊäÈëÎ²²å·¨½¨Á¢µÄÁ´±íÊı×Ö\n");
+	printf("è¯·è¾“å…¥å°¾æ’æ³•å»ºç«‹çš„é“¾è¡¨æ•°å­—\n");
 	scanf_s("%d", &x);
 	L->data = x;
-	printf("¼ÓÈë³É¹¦£¬ÊäÈë-1ÍË³ö\n");
+	printf("åŠ å…¥æˆåŠŸï¼Œè¾“å…¥-1é€€å‡º\n");
 	scanf_s("%d", &x);
 	while (x != -1) {
-		s = (LNode*)malloc(sizeof(LNode));//ÒªÉêÇë¿Õ¼ä½øĞĞ³õÊ¼»¯
+		s = (LNode*)malloc(sizeof(LNode));//è¦ç”³è¯·ç©ºé—´è¿›è¡Œåˆå§‹åŒ–
 		s->data = x;
 		s->next = r->next;
 		r->next = s;
 		r = r->next;
-		printf("¼ÓÈë³É¹¦£¬ÊäÈë-1ÍË³ö\n");
+		printf("åŠ å…¥æˆåŠŸï¼Œè¾“å…¥-1é€€å‡º\n");
 		scanf_s("%d", &x);
 	}
 	r->next = NULL;
 	return L;
 }
-//µ¥Ñ­»·Î²²å
+//å•å¾ªç¯å°¾æ’
 LinkList FTailInsert(LinkList& L) {
 	L = (LNode*)malloc(sizeof(LNode));
 	LNode* s, * r = L; int x;
-	printf("ÇëÊäÈëÎ²²å·¨½¨Á¢µÄÁ´±íÊı×Ö\n");
+	printf("è¯·è¾“å…¥å°¾æ’æ³•å»ºç«‹çš„é“¾è¡¨æ•°å­—\n");
 	scanf_s("%d", &x);
 	while (x != -1) {
-		s = (LNode*)malloc(sizeof(LNode));//ÒªÉêÇë¿Õ¼ä½øĞĞ³õÊ¼»¯
+		s = (LNode*)malloc(sizeof(LNode));//è¦ç”³è¯·ç©ºé—´è¿›è¡Œåˆå§‹åŒ–
 		s->data = x;
 		s->next = r->next;
 		r->next = s;
 		r = r->next;       
-		printf("¼ÓÈë³É¹¦£¬ÊäÈë-1ÍË³ö\n");
+		printf("åŠ å…¥æˆåŠŸï¼Œè¾“å…¥-1é€€å‡º\n");
 		scanf_s("%d", &x);
 	}
 	r->next = L;
 	return L;
 }
-//´òÓ¡º¯Êı
+//æ‰“å°å‡½æ•°
 bool LPrintList(LinkList& L) {
 	LNode* p = L->next;
 	while (p!= NULL) {
@@ -113,7 +114,7 @@ bool LPrintList(LinkList& L) {
 	printf("\n");
 	return true;
 }
-//ÎŞÍ·´òÓ¡º¯Êı
+//æ— å¤´æ‰“å°å‡½æ•°
 bool LPrintListNoHead(LinkList& L) {
 	LNode* p = L;
 	while (p != NULL) {
@@ -123,7 +124,7 @@ bool LPrintListNoHead(LinkList& L) {
 	printf("\n");
 	return true;
 }
-//´òÓ¡º¯Êı
+//æ‰“å°å‡½æ•°
 bool FPrintList(LinkList& L) {
 	LNode* p = L->next;
 	while (p != L) {
@@ -194,23 +195,23 @@ bool DeleteInAAndB(LinkList &L,int a,int b) {
 	}
 	return 0;
 }
-//6¡¢
+//6ã€
 bool Divide(LinkList& L) {
-	int count = 1;//ºÍpÖ¸ÕëÍ¬²½£¬¼ÇÂ¼ÆæÅ¼,´ÓµÚÒ»¸ö½Úµã¿ªÊ¼
+	int count = 1;//å’ŒpæŒ‡é’ˆåŒæ­¥ï¼Œè®°å½•å¥‡å¶,ä»ç¬¬ä¸€ä¸ªèŠ‚ç‚¹å¼€å§‹
 	LNode* p = L->next;
 	LNode* B = (LNode*)malloc(sizeof(LNode));
-	B->next = NULL;//³õÊ¼»¯bÁ´
+	B->next = NULL;//åˆå§‹åŒ–bé“¾
 	while (p != NULL) {
-		LNode* r = p->next;//¼ÇÂ¼pµÄºóÒ»¸ö½Úµã£¬·ÀÖ¹Á´¶ÏÁÑÊ±ºóÃæÏûÊ§
-		if (count % 2 == 0) {//Å¼ÊıÊ±¾ÍÇ°²åµ½BÁ´ÉÏ£»
+		LNode* r = p->next;//è®°å½•pçš„åä¸€ä¸ªèŠ‚ç‚¹ï¼Œé˜²æ­¢é“¾æ–­è£‚æ—¶åé¢æ¶ˆå¤±
+		if (count % 2 == 0) {//å¶æ•°æ—¶å°±å‰æ’åˆ°Bé“¾ä¸Šï¼›
 			p->next = B->next;
 			B->next = p;
 		}
-		else if(r != NULL){//´¦Àí×îºór==NULLÊ±ÎŞnextµÄÇé¿ö
-			p->next = r->next;	//Ö±½ÓÈ¥Á´ÏÂÒ»¸öÆæÊıµÄ½Úµã
+		else if(r != NULL){//å¤„ç†æœ€år==NULLæ—¶æ— nextçš„æƒ…å†µ
+			p->next = r->next;	//ç›´æ¥å»é“¾ä¸‹ä¸€ä¸ªå¥‡æ•°çš„èŠ‚ç‚¹
 		}
-		count++;//¼ÇÂ¼ÆæÅ¼
-		p = r;//pÏòºóÒÆ
+		count++;//è®°å½•å¥‡å¶
+		p = r;//på‘åç§»
 	}
 	printf("A----\n");
 	LPrintList(L);
@@ -307,7 +308,7 @@ bool IsSon(LinkList& A, LinkList& B) {
 //11
 bool Symmetry(DLinkList &L) {
 	DNode* p = L->next,* q = L->prior;
-	while (p != q&&q->next!=p) {//´¦ÀípqÏàµÈºÍp³¬¹ıqµÄ¿ÉÄÜ 
+	while (p != q&&q->next!=p) {//å¤„ç†pqç›¸ç­‰å’Œpè¶…è¿‡qçš„å¯èƒ½ 
 
 		if (p->data == q->data) {
 			p = p->next;
@@ -336,23 +337,23 @@ bool Merge(LinkList& h1, LinkList& h2) {
 //13
 DNode* Locate(DLinkList& L, int x)
  {
-	DNode* p = L->next, * q = L;//pÎª¹¤×÷Ö¸Õë£¬ÕÒµ½xÖ®ºó½«xÔÚÁ´ÉÏÈ¡ÏÂÀ´
+	DNode* p = L->next, * q = L;//pä¸ºå·¥ä½œæŒ‡é’ˆï¼Œæ‰¾åˆ°xä¹‹åå°†xåœ¨é“¾ä¸Šå–ä¸‹æ¥
 	while (p != NULL) {
 		if (p->data == x) {
-			p->freq++;//·ÃÎÊµ½x,freq++
-			q = p->prior;//È¡³öp
+			p->freq++;//è®¿é—®åˆ°x,freq++
+			q = p->prior;//å–å‡ºp
 			q->next = p->next;
-			if (p->next != NULL) {//´¦ÀípÎª×îºóÒ»¸ö½ÚµãµÄÇé¿ö
+			if (p->next != NULL) {//å¤„ç†pä¸ºæœ€åä¸€ä¸ªèŠ‚ç‚¹çš„æƒ…å†µ
 				p->next->prior = q;
 			}
-			break;//ÕÒµ½ºóÌø³öÑ­»·
+			break;//æ‰¾åˆ°åè·³å‡ºå¾ªç¯
 		}
 		p=p->next;
 	}
-	if (p == NULL) {//ÕÒ²»µ½Ö±½Ó·µ»ØNULL
+	if (p == NULL) {//æ‰¾ä¸åˆ°ç›´æ¥è¿”å›NULL
 		return p;
 	}
-	while (q != L && q->freq <= p->freq) {//q½ÚµãÏòÇ°Ñ°ÕÒfreq´óÓÚpµÄ½Úµã£¬ÕÒ²»µ½¾ÍÔÚÍ·½áµãºó²åÈë£¬Ê¹Ö®³ÉÎªµÚÒ»¸öÔªËØ
+	while (q != L && q->freq <= p->freq) {//qèŠ‚ç‚¹å‘å‰å¯»æ‰¾freqå¤§äºpçš„èŠ‚ç‚¹ï¼Œæ‰¾ä¸åˆ°å°±åœ¨å¤´ç»“ç‚¹åæ’å…¥ï¼Œä½¿ä¹‹æˆä¸ºç¬¬ä¸€ä¸ªå…ƒç´ 
 		q = q->prior;
 	}
 	p->next = q->next;
@@ -374,27 +375,30 @@ int GetLength(LinkList&L) {
 }
 //14
 bool RightMove(LinkList&L,int k) {
-	int n=GetLength(L);//µÃµ½³¤¶È
+	int n=GetLength(L);//å¾—åˆ°é•¿åº¦
 	if (k >= n) {
 		return false;
 	}
-	LNode* p = L,*q= L;//¸¨ÖúÖ¸Õë
-	for (int i = 0; i < n - k - 1; i++) {//ÕÒµ½Ó¦¸ÃÒÆ¶¯µÄÇ°Ò»¸öÔªËØ
+	LNode* p = L,*q= L;//è¾…åŠ©æŒ‡é’ˆ
+	for (int i = 0; i < n - k - 1; i++) {//æ‰¾åˆ°åº”è¯¥ç§»åŠ¨çš„å‰ä¸€ä¸ªå…ƒç´ 
 		p = p->next;
 	}
-	q = p->next;//°ÑÁ´±íÔÚÕâÀï¶Ï¿ª
-	p->next = NULL;//p½«»á×÷Îª×îºóÒ»¸öÔªËØ
-	LNode *r = q;//rµ±É¨ÃèÖ¸Õë£¬½«É¨µ½qÁ´±íµÄ×îºóÒ»¸öÔªËØ
+	q = p->next;//æŠŠé“¾è¡¨åœ¨è¿™é‡Œæ–­å¼€
+	p->next = NULL;//på°†ä¼šä½œä¸ºæœ€åä¸€ä¸ªå…ƒç´ 
+	LNode *r = q;//rå½“æ‰«ææŒ‡é’ˆï¼Œå°†æ‰«åˆ°qé“¾è¡¨çš„æœ€åä¸€ä¸ªå…ƒç´ 
 	while (r->next) {
 		r = r -> next;
 	}
-	//r´ËÊ±Îª×îºóÒ»¸öÔªËØ,Á´½Óµ½Ö®Ç°µÄÍ·½áµã
+	//ræ­¤æ—¶ä¸ºæœ€åä¸€ä¸ªå…ƒç´ ,é“¾æ¥åˆ°ä¹‹å‰çš„å¤´ç»“ç‚¹
 	r->next = L;
-	//°Ñqµ±Í·½áµã
+	//æŠŠqå½“å¤´ç»“ç‚¹
 	L=q;
 	return true;
 }
 int main() {
+    // æ§åˆ¶å°è¾“å‡ºä¸­æ–‡ä¹±ç é—®é¢˜
+    SetConsoleOutputCP(65001);
+
 	LinkList lA;
 	LTailInsert(lA);
 	FTailInsert(lA);
@@ -405,19 +409,19 @@ int main() {
 	FPrintList(lB);
 
 
-	DeleteX(l, 3);
-	printf("É¾³ı\n");
-	LPrintList(l);
-	DeleteMin(l);
-	printf("É¾³ı×îĞ¡\n");
-	LPrintList(l);
-	printf("·´×ª\n");
-	Reverse(l);
-	LPrintList(l);
-	printf("É¾³ıAºÍBÖ®¼ä\n"); 
-	DeleteInAAndB(l,4,6);
-	LPrintList(l);
-	Divide(l);
+	DeleteX(lA, 3);
+	printf("åˆ é™¤\n");
+	LPrintList(lA);
+	DeleteMin(lA);
+	printf("åˆ é™¤æœ€å°\n");
+	LPrintList(lA);
+	printf("åè½¬\n");
+	Reverse(lA);
+	LPrintList(lA);
+	printf("åˆ é™¤Aå’ŒBä¹‹é—´\n"); 
+	DeleteInAAndB(lA,4,6);
+	LPrintList(lA);
+	Divide(lA);
 	DeleteReplay(lA);
 	LinkList C=CreateCFromAandB(lA, lB);
 	BothHave(lA, lB);
@@ -441,7 +445,7 @@ int main() {
 	LTailInsertNoHead(A);
 	LPrintListNoHead(A);
 	int x = 0;
-	printf("ÇëÊäÈëÄãÒªÒÆ¶¯µÄ³¤¶È");
+	printf("è¯·è¾“å…¥ä½ è¦ç§»åŠ¨çš„é•¿åº¦");
 	scanf_s("%d", &x);
 	RightMove(A, x);
 	LPrintListNoHead(A);

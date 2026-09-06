@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<windows.h>
+
 typedef struct BiNode { 
 	int data;
 	BiNode* lChild, * rChild;
@@ -11,7 +13,7 @@ void InitBiTree(BiTree &t) {
 	t->lChild = NULL;
 	t->rChild = NULL;
 }
-//Ö¸¶¨½ÚµãÌí¼ÓÓÒº¢×Ó
+//æŒ‡å®šèŠ‚ç‚¹æ·»åŠ å³å­©å­
 bool AddrChild(BiNode* q, int data) {
 	BiNode* s = (BiNode*)malloc(sizeof(BiNode));
 	s->data = data;
@@ -20,7 +22,7 @@ bool AddrChild(BiNode* q, int data) {
 	q->rChild = s;
 	return true;
 }
-//Ìí¼Ó×óº¢×Ó
+//æ·»åŠ å·¦å­©å­
 bool AddlChild(BiNode* q, int data) {
 	BiNode* s = (BiNode*)malloc(sizeof(BiNode));
 	s->data = data;
@@ -29,7 +31,7 @@ bool AddlChild(BiNode* q, int data) {
 	q->lChild = s;
 	return true;
 }
-//Í³¼Æ¶ÈÎª1µÄ½ÚµãÊı
+//ç»Ÿè®¡åº¦ä¸º1çš„èŠ‚ç‚¹æ•°
 int GetNumOfSingalChild(BiTree t) {
 	int num=0;
 	if (!t) {
@@ -47,7 +49,7 @@ int GetNumOfSingalChild(BiTree t) {
 	}
 	
 }
-//Í³¼Æ¶ÈÎª2µÄ½ÚµãÊı
+//ç»Ÿè®¡åº¦ä¸º2çš„èŠ‚ç‚¹æ•°
 int GetNumOfDoubleChild(BiTree t) {
 	int num = 0;
 	if (!t) {
@@ -65,7 +67,7 @@ int GetNumOfDoubleChild(BiTree t) {
 	}
 
 }
-//Í³¼Æ¶ÈÎª0µÄµã
+//ç»Ÿè®¡åº¦ä¸º0çš„ç‚¹
 int GetNumofZeroChild(BiTree t) {
 	if (!t) { return 0; }
 	int num=0;
@@ -78,7 +80,7 @@ int GetNumofZeroChild(BiTree t) {
 		return num;
 	}
 }
-//Çó¸ß¶È
+//æ±‚é«˜åº¦
 int GetHeight(BiTree t) {
 	if (!t) { return 0; }
 	int hl = GetHeight(t->lChild);
@@ -90,17 +92,17 @@ int GetHeight(BiTree t) {
 		return hr;
 	}
 }
-//¶ş²æÊ÷µİ¹éÇó¿í
-int count[100]={};//Êı×é±ê¼ÇÃ¿²ãµÄ½ÚµãÊı
+//äºŒå‰æ ‘é€’å½’æ±‚å®½
+int count[100]={};//æ•°ç»„æ ‡è®°æ¯å±‚çš„èŠ‚ç‚¹æ•°
 int WIDTH = -1;
-void GetWidth(BiTree t,int k) {//kÎª²ã´Î£¬×î¿ªÊ¼ÊÇµÚÒ»²ã
+void GetWidth(BiTree t,int k) {//kä¸ºå±‚æ¬¡ï¼Œæœ€å¼€å§‹æ˜¯ç¬¬ä¸€å±‚
 	if (!t) return ;
 	count[k]++;
 	if (WIDTH < count[k]) WIDTH = count[k];
 	GetWidth(t->lChild, k + 1);
 	GetWidth(t->rChild, k + 1);
 }
-//É¾³ıËùÓĞÒ¶×Ó,
+//åˆ é™¤æ‰€æœ‰å¶å­,
 void DeleteLeaf(BiTree t) {
 	if (!t) { return; }
 	if (t->lChild && !t->lChild->lChild && !t->lChild->rChild) {
@@ -114,16 +116,16 @@ void DeleteLeaf(BiTree t) {
 	DeleteLeaf(t->lChild);
 	DeleteLeaf(t->rChild);
 }
-//ÏÈĞò±éÀú´òÓ¡
+//å…ˆåºéå†æ‰“å°
 void PrintPre(BiTree t) {
 	if (!t)return;
 	printf("%d", t->data);
 	PrintPre(t->lChild);
 	PrintPre(t->rChild);
 }
-//MAX¼´ÎªËùÇó¿í¶È
+//MAXå³ä¸ºæ‰€æ±‚å®½åº¦
 
-//p½ÚµãËùÔÚ²ã´Î
+//pèŠ‚ç‚¹æ‰€åœ¨å±‚æ¬¡
 int GetpLevel(BiTree t, int  p) {
 	if (!t || !p) { return 0; }
 	int llevel = 0, rlevel = 0;
@@ -137,7 +139,7 @@ int GetpLevel(BiTree t, int  p) {
 		return 0;
 	}
 }
-//ÕÒÊ÷ÖĞ×î´óÖµ
+//æ‰¾æ ‘ä¸­æœ€å¤§å€¼
 int GetMax(BiTree t) {
 	if (!t) { return 0; }
 	int lMax = 0, rMax = 0;
@@ -150,14 +152,16 @@ int GetMax(BiTree t) {
 		return lMax >= rMax ? lMax : rMax;
 	}
 }
-//ÏÈĞòÊä³ö½ÚµãÖµºÍËùÔÚ²ã´Î
-void PrintDataAndLevel(BiTree t,int i) {//iÎª²ã´Î£¬³õÊ¼Îª1
+//å…ˆåºè¾“å‡ºèŠ‚ç‚¹å€¼å’Œæ‰€åœ¨å±‚æ¬¡
+void PrintDataAndLevel(BiTree t,int i) {//iä¸ºå±‚æ¬¡ï¼Œåˆå§‹ä¸º1
 	if (!t)return ;
-	printf("½ÚµãÖµ:%d,½ÚµãËùÔÚ²ã´Î:%d\n", t->data, i);
+	printf("èŠ‚ç‚¹å€¼:%d,èŠ‚ç‚¹æ‰€åœ¨å±‚æ¬¡:%d\n", t->data, i);
 	PrintDataAndLevel(t->lChild,i+1);
 	PrintDataAndLevel(t->rChild,i+1);
 }
 int main() {
+    // è®¾ç½®æ§åˆ¶å°è¾“å‡ºä¸ºUTF-8ï¼Œè§£å†³ä¸­æ–‡ä¹±ç 
+    SetConsoleOutputCP(65001);
 	BiTree t;
 	InitBiTree(t);
 	AddlChild(t, 2);
@@ -166,18 +170,18 @@ int main() {
 	AddrChild(t, 3);
 	AddlChild(t->rChild, 6);
 	AddrChild(t->rChild, 7);
-	//4ÏÂÃæ¹Ò
+	//4ä¸‹é¢æŒ‚
 	AddlChild(t->lChild->lChild, 8);
 	AddrChild(t->lChild->lChild, 9);
-	//5ÏÂÃæ
+	//5ä¸‹é¢
 	AddlChild(t->lChild->rChild, 10);
 	//AddlChild(t->lChild->rChild->lChild, 8);
 	//AddlChild(t->lChild->rChild->lChild->lChild, 9);
 	AddrChild(t->lChild->rChild, 11);
-	//6ÏÂÃæ
+	//6ä¸‹é¢
 	AddlChild(t->rChild->lChild, 12);
 	AddrChild(t->rChild->lChild, 13);
-	//7ÏÂÃæ
+	//7ä¸‹é¢
 	AddlChild(t->rChild->rChild, 14);
 	AddrChild(t->rChild->rChild, 15);
 
@@ -187,12 +191,12 @@ int main() {
 	printf("%d", GetHeight(t));
 	GetWidth(t, 1);
 	printf("\n%d", WIDTH);
-	printf("\nÉ¾Ö®Ç°\n");
+	printf("\nåˆ ä¹‹å‰\n");
 	PrintPre(t);
 	//DeleteLeaf(t);
-	printf("\nÉ¾³ıÖ®ºó\n");
+	printf("\nåˆ é™¤ä¹‹å\n");
 	PrintPre(t);
-	printf("\n¸Ã½ÚµãËùÔÚ²ã´ÎÎª£º%d\n", GetpLevel(t,4));
+	printf("\nè¯¥èŠ‚ç‚¹æ‰€åœ¨å±‚æ¬¡ä¸ºï¼š%d\n", GetpLevel(t,4));
 	printf("%d",GetMax(t));
 	PrintDataAndLevel(t,1);
 }

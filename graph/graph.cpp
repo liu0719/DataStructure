@@ -1,36 +1,37 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-typedef struct LNode {//Á´Ê½½áµã
+#include<windows.h>
+typedef struct LNode {//é“¾å¼ç»“ç‚¹
 	int data;
 	LNode* next;
 }LNode;
-typedef struct LQueue {//¶ÓÁĞ£¬¾ÍÊÇÓÃÍ·Î²Ö¸Õë£¬ÖĞ¼ä°ü×ÅÒ»¸öÁ´±íÊµÏÖ£»Í·Î²Ö»ÊÇÁ½¸öÖ¸Õë¡£
+typedef struct LQueue {//é˜Ÿåˆ—ï¼Œå°±æ˜¯ç”¨å¤´å°¾æŒ‡é’ˆï¼Œä¸­é—´åŒ…ç€ä¸€ä¸ªé“¾è¡¨å®ç°ï¼›å¤´å°¾åªæ˜¯ä¸¤ä¸ªæŒ‡é’ˆã€‚
 	LNode* front, * rear;
-	//Èç¹û³¤¶ÈĞèÒªÆµ·±·ÃÎÊ£¬²»·Á¼ÓÒ»¸ölength
+	//å¦‚æœé•¿åº¦éœ€è¦é¢‘ç¹è®¿é—®ï¼Œä¸å¦¨åŠ ä¸€ä¸ªlength
 	int length;
 }LQueue;
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 bool InitLQueue(LQueue& q) {
-	//¿ÉÒÔÀí½âÎªÍ·Î²Á½¸öÖ¸ÕëÖ¸ÏòÍ¬Ò»¸ö½áµã
-	//ÉêÇëÁ´Ê½½Úµã£¬ÆäÊµ»¹ÊÇÁ´±í¶øÒÑ£¬¼ÓÁËÁ½¸öÍ·Î²Ö¸Õë£¬ÖØĞÂ¶¨ÒåÎªÒ»¸ö½á¹¹Ìå³ÆÎªÁ´Ê½¶ÓÁĞ
+	//å¯ä»¥ç†è§£ä¸ºå¤´å°¾ä¸¤ä¸ªæŒ‡é’ˆæŒ‡å‘åŒä¸€ä¸ªç»“ç‚¹
+	//ç”³è¯·é“¾å¼èŠ‚ç‚¹ï¼Œå…¶å®è¿˜æ˜¯é“¾è¡¨è€Œå·²ï¼ŒåŠ äº†ä¸¤ä¸ªå¤´å°¾æŒ‡é’ˆï¼Œé‡æ–°å®šä¹‰ä¸ºä¸€ä¸ªç»“æ„ä½“ç§°ä¸ºé“¾å¼é˜Ÿåˆ—
 	q.front = q.rear = (LNode*)malloc(sizeof(LNode));
-	q.rear->next = q.front;//frontÎªÍ·½áµã£¬Ê¹ÆäÏÂÒ»¸öÖ¸ÏòNULL
+	q.rear->next = q.front;//frontä¸ºå¤´ç»“ç‚¹ï¼Œä½¿å…¶ä¸‹ä¸€ä¸ªæŒ‡å‘NULL
 	return true;
 }
-//ÅĞ¿Õ
+//åˆ¤ç©º
 bool IsEmpty(LQueue& q) {
 	return q.front == q.rear;
 }
-//ÅĞÂú
+//åˆ¤æ»¡
 bool IsOverFlow(LQueue& q) {
 	return q.rear->next == q.front;
 }
-//Èë¶Ó
+//å…¥é˜Ÿ
 bool EnQueue(LQueue& q, int x) {
-	if (IsOverFlow(q)) {//Èç¹ûÎª¿ÕÔòÈÏÎªÊÇÂúµÄ
-		//Ã»ÓĞ¾ÍÉêÇëÒ»¸öĞÂ½Úµã£¬½«x¸³¸øµ±Ç°µÄrear,²¢½«ĞÂÉêÇëµÄLNodeÁ´½Óµ½rearºóÃæ£¬²¢½«rearºóÒÆ£»
-	//ĞèÒª¿Õ³öÒ»¸ö½Úµã£»
+	if (IsOverFlow(q)) {//å¦‚æœä¸ºç©ºåˆ™è®¤ä¸ºæ˜¯æ»¡çš„
+		//æ²¡æœ‰å°±ç”³è¯·ä¸€ä¸ªæ–°èŠ‚ç‚¹ï¼Œå°†xèµ‹ç»™å½“å‰çš„rear,å¹¶å°†æ–°ç”³è¯·çš„LNodeé“¾æ¥åˆ°rearåé¢ï¼Œå¹¶å°†rearåç§»ï¼›
+	//éœ€è¦ç©ºå‡ºä¸€ä¸ªèŠ‚ç‚¹ï¼›
 		LNode* s = (LNode*)malloc(sizeof(LNode));
 		s->data = x;
 		s->next = q.rear->next;
@@ -38,44 +39,44 @@ bool EnQueue(LQueue& q, int x) {
 		q.rear = s;
 		return true;
 	}
-	//³õÊ¼ÊÓÎª²»Âú
-		//Èç¹ûrearºóÃæÓĞ¿ÕµÄ½Úµã¾ÍÖ±½Ó¸³ÖµºóÒÆ¾ÍĞĞ
-	//ÓĞÍ·½áµãÊ±£¬rearÖ¸ÏòµÄÊÇ×îºóÒ»¸öÔªËØ£¬ÏÈÈÃrearÏòºó±éÀúÒ»¸öÔÚ½øĞĞ¸³Öµ
+	//åˆå§‹è§†ä¸ºä¸æ»¡
+		//å¦‚æœrearåé¢æœ‰ç©ºçš„èŠ‚ç‚¹å°±ç›´æ¥èµ‹å€¼åç§»å°±è¡Œ
+	//æœ‰å¤´ç»“ç‚¹æ—¶ï¼ŒrearæŒ‡å‘çš„æ˜¯æœ€åä¸€ä¸ªå…ƒç´ ï¼Œå…ˆè®©rearå‘åéå†ä¸€ä¸ªåœ¨è¿›è¡Œèµ‹å€¼
 	q.rear = q.rear->next;
 	q.rear->data = x;
 
 	return true;
 }
-//³ö¶Ó
+//å‡ºé˜Ÿ
 bool DeLQueue(LQueue& q, int& x) {
-	if (IsEmpty(q)) { return false; }//¶ÓÁĞÎª¿Õ
-	//Í·½áµãÖ¸ÏòºóÒÆ
+	if (IsEmpty(q)) { return false; }//é˜Ÿåˆ—ä¸ºç©º
+	//å¤´ç»“ç‚¹æŒ‡å‘åç§»
 	LNode* p = q.front->next;
 	if (q.front->next == q.rear) {
 		q.rear = q.front;
 	}
 	q.front->next = p->next;
-	//¹Òµ½rearºóÃæ
+	//æŒ‚åˆ°rearåé¢
 	p->next = q.rear->next;
 	q.rear->next = p;
 	return true;
 }
 constexpr auto MAXSIZE = 100;
-//ÁÚ½Ó¾ØÕó
+//é‚»æ¥çŸ©é˜µ
 typedef struct MGraph {
-	int edge[MAXSIZE][MAXSIZE];     //ÁÚ½Ó¾ØÕó±í£¬±ß±í,ÓÃintĞÍ²ÎÊı¿ÉÒÔ´øÈ¨
-	char vex[MAXSIZE];              //¶¥µã×Ö·û±í
-	int vexnum,arcnum;              //Í¼ÖĞÏÖÓĞ½ÚµãÊı,±ßÊı
-	bool IsToWards;                 //ÊÇ·ñÎªÓĞÏòÍ¼»òÎŞÏòÍ¼ trueÔòÓĞÏòÍ¼
+	int edge[MAXSIZE][MAXSIZE];     //é‚»æ¥çŸ©é˜µè¡¨ï¼Œè¾¹è¡¨,ç”¨intå‹å‚æ•°å¯ä»¥å¸¦æƒ
+	char vex[MAXSIZE];              //é¡¶ç‚¹å­—ç¬¦è¡¨
+	int vexnum,arcnum;              //å›¾ä¸­ç°æœ‰èŠ‚ç‚¹æ•°,è¾¹æ•°
+	bool IsToWards;                 //æ˜¯å¦ä¸ºæœ‰å‘å›¾æˆ–æ— å‘å›¾ trueåˆ™æœ‰å‘å›¾
 };
-//³õÊ¼»¯ÁÚ½Ó¾ØÕó
+//åˆå§‹åŒ–é‚»æ¥çŸ©é˜µ
 void InitMGraph(MGraph &m) {
 	m.arcnum = 0; 
 	m.vexnum =  0 ;
-	memset(m.edge, 0, sizeof(m.edge));//È«²¿³õÊ¼»¯Îª0
+	memset(m.edge, 0, sizeof(m.edge));//å…¨éƒ¨åˆå§‹åŒ–ä¸º0
 }
-//²éÕÒ¶¥µãxµÚÒ»¸ö±ßÁ¬½ÓµÄÁíÒ»¸ö½Úµã£¬·µ»ØÊı×éÏÂ±ê£¨ÁÚ½Ó¾ØÕó£©
-int FirstNeighborMG(MGraph m, int x) {//´«ÈëxÎªÒª²éµÄ¶¥µãµÄÎ»ÖÃÏÂ±ê
+//æŸ¥æ‰¾é¡¶ç‚¹xç¬¬ä¸€ä¸ªè¾¹è¿æ¥çš„å¦ä¸€ä¸ªèŠ‚ç‚¹ï¼Œè¿”å›æ•°ç»„ä¸‹æ ‡ï¼ˆé‚»æ¥çŸ©é˜µï¼‰
+int FirstNeighborMG(MGraph m, int x) {//ä¼ å…¥xä¸ºè¦æŸ¥çš„é¡¶ç‚¹çš„ä½ç½®ä¸‹æ ‡
 	for (int i = 0; i < m.vexnum; i++)
 	{
 		if (m.edge[x][i] == 1) {
@@ -84,7 +85,7 @@ int FirstNeighborMG(MGraph m, int x) {//´«ÈëxÎªÒª²éµÄ¶¥µãµÄÎ»ÖÃÏÂ±ê
 	}
 	return -1;
 }
-//²éÕÒµ±Ç°¶¥µãµÄÏÂÒ»¸ö±ß£¨ÁÚ½Ó¾ØÕó£©
+//æŸ¥æ‰¾å½“å‰é¡¶ç‚¹çš„ä¸‹ä¸€ä¸ªè¾¹ï¼ˆé‚»æ¥çŸ©é˜µï¼‰
 int NextNeighborMG(MGraph m, int x, int y) {
 	for (int i = y; i < m.vexnum; i++)
 	{
@@ -94,31 +95,31 @@ int NextNeighborMG(MGraph m, int x, int y) {
 	}
 	return -1;
 }
-//ÁÚ½ÓÁ´±í½Úµã
+//é‚»æ¥é“¾è¡¨èŠ‚ç‚¹
 typedef struct ArcNode {
-	int adjvex;          //±ßÖ¸ÏòµÄ¶¥µãÔÚ¶¥µã±íÖĞµÄÎ»ÖÃ
-	int arclong;          //È¨Öµ
-	ArcNode* nextarc;    //ÏÂÒ»¸ö±ßµÄÖ¸Õë
+	int adjvex;          //è¾¹æŒ‡å‘çš„é¡¶ç‚¹åœ¨é¡¶ç‚¹è¡¨ä¸­çš„ä½ç½®
+	int arclong;          //æƒå€¼
+	ArcNode* nextarc;    //ä¸‹ä¸€ä¸ªè¾¹çš„æŒ‡é’ˆ
 }ArcNode;
-//ÁÚ½Ó¶¥µã±í½Úµã
+//é‚»æ¥é¡¶ç‚¹è¡¨èŠ‚ç‚¹
 typedef struct VNode {
-	char vexNode;    //¶¥µãĞÅÏ¢
-	ArcNode* Firstarc;//µÚÒ»¸ö±ßµÄÖ¸Õë
-}VNode,AdjList[MAXSIZE];//Æğ±ğÃûÎªÊı×é
-//ÁÚ½Ó±í
+	char vexNode;    //é¡¶ç‚¹ä¿¡æ¯
+	ArcNode* Firstarc;//ç¬¬ä¸€ä¸ªè¾¹çš„æŒ‡é’ˆ
+}VNode,AdjList[MAXSIZE];//èµ·åˆ«åä¸ºæ•°ç»„
+//é‚»æ¥è¡¨
 typedef struct ALGraph {
-	AdjList vertices;   //¶¥µã±í
-	int vexnum, arcnum; //½ÚµãÊı,±ßÊı
-	bool IsToWards;     //ÊÇ·ñÎªÓĞÏòÍ¼»òÎŞÏòÍ¼ trueÔòÓĞÏòÍ¼
+	AdjList vertices;   //é¡¶ç‚¹è¡¨
+	int vexnum, arcnum; //èŠ‚ç‚¹æ•°,è¾¹æ•°
+	bool IsToWards;     //æ˜¯å¦ä¸ºæœ‰å‘å›¾æˆ–æ— å‘å›¾ trueåˆ™æœ‰å‘å›¾
 }ALGraph;
-//ÁÚ½Ó±í³õÊ¼»¯
+//é‚»æ¥è¡¨åˆå§‹åŒ–
 void InitALGraph(ALGraph &al,bool istowards) {
 	al.arcnum = 0;
 	al.vexnum = 0;
 	al.IsToWards = istowards;
 	memset(al.vertices, 0, sizeof(al.vertices));
 }
-//ÁÚ½Ó±í²éµ±Ç°µÚÒ»¸ö±ßÁ¬×ÅµÄ¶¥µã
+//é‚»æ¥è¡¨æŸ¥å½“å‰ç¬¬ä¸€ä¸ªè¾¹è¿ç€çš„é¡¶ç‚¹
 int FirstNeighborAL(ALGraph al, VNode x) {
 	ArcNode* p = x.Firstarc;
 	if (p) {
@@ -126,7 +127,7 @@ int FirstNeighborAL(ALGraph al, VNode x) {
 	}
 	return -1;
 }
-//ÁÚ½Ó±í²éµ±Ç°ÏÂÒ»¸ö±ßÁ¬×ÅµÄ¶¥µã
+//é‚»æ¥è¡¨æŸ¥å½“å‰ä¸‹ä¸€ä¸ªè¾¹è¿ç€çš„é¡¶ç‚¹
 int NextNeighborAL(ALGraph al, VNode x, ArcNode* y) {
 	ArcNode* p = y->nextarc;
 	if (p) {
@@ -134,46 +135,46 @@ int NextNeighborAL(ALGraph al, VNode x, ArcNode* y) {
 	}
 	return -1;
 }
-//ÁÚ½Ó±í×ªÁÚ½Ó¾ØÕó
+//é‚»æ¥è¡¨è½¬é‚»æ¥çŸ©é˜µ
 bool ALGraphToMGraph(ALGraph al,MGraph &m) {
 	InitMGraph(m);
-	m.IsToWards = al.IsToWards;//ÁÚ½Ó±í
+	m.IsToWards = al.IsToWards;//é‚»æ¥è¡¨
 	for (int i = 0; i <al.vexnum; i++)
 	{
-		//½«ÁÚ½Ó±íÖĞ¶¥µã±íµÄµÚi¸ö¶¥µãÄÚÈİ£¬¸³Öµ¸øÁÚ½Ó¾ØÕóÖĞ¶¥µã±íµÄµÚi¸ö
+		//å°†é‚»æ¥è¡¨ä¸­é¡¶ç‚¹è¡¨çš„ç¬¬iä¸ªé¡¶ç‚¹å†…å®¹ï¼Œèµ‹å€¼ç»™é‚»æ¥çŸ©é˜µä¸­é¡¶ç‚¹è¡¨çš„ç¬¬iä¸ª
 		m.vex[i] = al.vertices[i].vexNode;
-		//½¨Á¢Ò»¸öp½ÚµãÀ´±éÀúµ±Ç°µÚi¸ö½ÚµãµÄ±ß±í
+		//å»ºç«‹ä¸€ä¸ªpèŠ‚ç‚¹æ¥éå†å½“å‰ç¬¬iä¸ªèŠ‚ç‚¹çš„è¾¹è¡¨
 		ArcNode* p = al.vertices[i].Firstarc;
-		//ÁÚ½Ó¾ØÕóµ±Ç°µÄ½ÚµãÊı+1
+		//é‚»æ¥çŸ©é˜µå½“å‰çš„èŠ‚ç‚¹æ•°+1
 		m.vexnum++;
-		//pÎª¿ÕÔò±íÊ¾µ±Ç°¶¥µãµÄ±ßÒÑ¾­É¨ÃèÍê£¬½øÈëÏÂÒ»¸ö¶¥µã½øĞĞÑ­»·¡£
+		//pä¸ºç©ºåˆ™è¡¨ç¤ºå½“å‰é¡¶ç‚¹çš„è¾¹å·²ç»æ‰«æå®Œï¼Œè¿›å…¥ä¸‹ä¸€ä¸ªé¡¶ç‚¹è¿›è¡Œå¾ªç¯ã€‚
 		while (p)
 		{
-			//iÎªµ±Ç°½Úµã£¬p->adjvexÊÇÕâ¸ö±ß¶ÔÓ¦µÄÁíÒ»¸ö½Úµã
-			//µ½´Ë´¦ËµÃ÷µ±Ç°¶¥µãÓĞ±ß£¬Ö»Òª½«,iĞĞp->adjvexÁĞ
+			//iä¸ºå½“å‰èŠ‚ç‚¹ï¼Œp->adjvexæ˜¯è¿™ä¸ªè¾¹å¯¹åº”çš„å¦ä¸€ä¸ªèŠ‚ç‚¹
+			//åˆ°æ­¤å¤„è¯´æ˜å½“å‰é¡¶ç‚¹æœ‰è¾¹ï¼Œåªè¦å°†,iè¡Œp->adjvexåˆ—
 			m.edge[i][p->adjvex] = 1;
-			//±ßÊı+1
+			//è¾¹æ•°+1
 			m.arcnum++;
 			p = p->nextarc;
 		}
 	}
-	//Èç¹ûÊÇÎŞÏòÍ¼£¬Ã¿¸ö±ß±»ËãÁËÁ½´ÎÒª/2£¬ÓĞÏòÍ¼Ôò²»ÓÃ
-	if (!m.IsToWards) {//ÎŞÏòÍ¼ÔòÎªfalse
+	//å¦‚æœæ˜¯æ— å‘å›¾ï¼Œæ¯ä¸ªè¾¹è¢«ç®—äº†ä¸¤æ¬¡è¦/2ï¼Œæœ‰å‘å›¾åˆ™ä¸ç”¨
+	if (!m.IsToWards) {//æ— å‘å›¾åˆ™ä¸ºfalse
 		m.arcnum /= 2;
 	}
 	return true;
 }
-//¹ã¶ÈÓÅÏÈ±éÀú
-//·ÃÎÊ¼ÇÂ¼Êı×é
+//å¹¿åº¦ä¼˜å…ˆéå†
+//è®¿é—®è®°å½•æ•°ç»„
 bool visited[MAXSIZE];
-//³õÊ¼»¯¶ÓÁĞ
+//åˆå§‹åŒ–é˜Ÿåˆ—
 LQueue q; 
-//·ÃÎÊº¯Êı
+//è®¿é—®å‡½æ•°
 void visitMG(MGraph m,int i) {
 	printf("%c",m.vex[i]);
 }
-//ÁÚ½Ó¾ØÕóµÄ¹ã¶ÈÓÅÏÈ
-void BFSMG(MGraph m, int i) {//iÎª´ÓÄ³¸ö¶¥µã¿ªÊ¼
+//é‚»æ¥çŸ©é˜µçš„å¹¿åº¦ä¼˜å…ˆ
+void BFSMG(MGraph m, int i) {//iä¸ºä»æŸä¸ªé¡¶ç‚¹å¼€å§‹
 	visitMG(m, i);
 	visited[i] = true;
 	EnQueue(q, i);
@@ -202,11 +203,11 @@ void BFSTraverse(MGraph m) {
 		}
 	}
 }
-//ÁÚ½Ó±í¹ã¶ÈÓÅÏÈ±éÀú
+//é‚»æ¥è¡¨å¹¿åº¦ä¼˜å…ˆéå†
 void visitAL(ALGraph al, int i) {
 	printf("%c", al.vertices[i].vexNode);
 }
-//¾ßÌå±éÀú
+//å…·ä½“éå†
 void BFSAL(ALGraph al, int i) {
 	visitAL(al, i);
 	visited[i] = true;
@@ -225,7 +226,7 @@ void BFSAL(ALGraph al, int i) {
 		}
 	}
 }
-//Íâ²ãforÑ­»·
+//å¤–å±‚forå¾ªç¯
 void BFSALTraverse(ALGraph al) {
 	for (int i = 0; i < al.vexnum; i++)
 	{
@@ -239,7 +240,7 @@ void BFSALTraverse(ALGraph al) {
 		}
 	}
 }
-//Éî¶ÈÓÅÏÈ±éÀú
+//æ·±åº¦ä¼˜å…ˆéå†
 void DFSAL(ALGraph al, int i) {
 	visitAL(al, i);
 	visited[i] = true;
@@ -262,7 +263,7 @@ void DFSMG(MGraph m, int i) {
 		}
 	}
 }
-//Éî¶È
+//æ·±åº¦
 void DFSTraverse(MGraph m) {
 	for (int i = 0; i < m.vexnum; i++)
 	{
@@ -274,7 +275,7 @@ void DFSTraverse(MGraph m) {
 			DFSMG(m, i);
 	}
 }
-//Éî¶È
+//æ·±åº¦
 void DFSALTraverse(ALGraph al) {
 	for (int i = 0; i < al.vexnum; i++)
 	{
@@ -287,9 +288,9 @@ void DFSALTraverse(ALGraph al) {
 	}
 }
 
-//´óÌâ
+//å¤§é¢˜
 // 
-//ÅĞ¶ÏÒ»¸öÎŞÏòÍ¼ÊÇ·ñÎªÒ»¿ÃÊ÷£¬ÊÇÒ»¿ÃÊ÷µÄ»°ÓĞn-1¸ö±ß
+//åˆ¤æ–­ä¸€ä¸ªæ— å‘å›¾æ˜¯å¦ä¸ºä¸€æ£µæ ‘ï¼Œæ˜¯ä¸€æ£µæ ‘çš„è¯æœ‰n-1ä¸ªè¾¹
 void DFS(MGraph g, int i, int& Vnum, int& Enum) {
 	visited[i] = true; Vnum++;
 	int j = FirstNeighborMG(g, i);
@@ -303,7 +304,7 @@ void DFS(MGraph g, int i, int& Vnum, int& Enum) {
 		j = NextNeighborMG(g, i, j);
 	}
 }
-//ÅĞ¶ÏÒ»¸öÎŞÏòÍ¼ÊÇ·ñÎªÒ»¿ÃÊ÷£¬ÊÇÒ»¿ÃÊ÷µÄ»°ÓĞn-1¸ö±ß
+//åˆ¤æ–­ä¸€ä¸ªæ— å‘å›¾æ˜¯å¦ä¸ºä¸€æ£µæ ‘ï¼Œæ˜¯ä¸€æ£µæ ‘çš„è¯æœ‰n-1ä¸ªè¾¹
 bool IsTree(MGraph g) {
 	for (int i = 0; i < g.vexnum; i++)
 	{
@@ -319,7 +320,7 @@ bool IsTree(MGraph g) {
 	}
 }
 
-//¼ì²éÊÇ·ñÓĞ´Óiµ½jµÄÂ·¾¶
+//æ£€æŸ¥æ˜¯å¦æœ‰ä»iåˆ°jçš„è·¯å¾„
 bool CanSearch = false;
 void DFSiToj(MGraph g, int i, int j, bool CanSearch) {
 	if (i == j) {
@@ -334,12 +335,12 @@ void DFSiToj(MGraph g, int i, int j, bool CanSearch) {
 		}
 	}
 }
-//Í¼µÄÓ¦ÓÃ
-//1.BFS·½·¨×î¶ÌÂ·¾¶
+//å›¾çš„åº”ç”¨
+//1.BFSæ–¹æ³•æœ€çŸ­è·¯å¾„
 int d[MAXSIZE];
 int path[MAXSIZE];
-void EFSGetShortest(MGraph G, int u) {//uÎª¿ªÊ¼µÄ½Úµã
-	//×¼±¸¹¤×÷
+void EFSGetShortest(MGraph G, int u) {//uä¸ºå¼€å§‹çš„èŠ‚ç‚¹
+	//å‡†å¤‡å·¥ä½œ
 	LQueue q;
 	InitLQueue(q);
 	for (int i = 0; i < G.vexnum; i++)
@@ -355,76 +356,76 @@ void EFSGetShortest(MGraph G, int u) {//uÎª¿ªÊ¼µÄ½Úµã
 		for (int i = FirstNeighborMG(G, u);i!=-1;i=NextNeighborMG(G,u,i))
 		{
 			if (!visited[i]) {
-				d[i] = d[u] + 1;//Â·¾¶¼ÓÒ»
-				path[i] =u;//±ê¼ÇÀ´Ô´
+				d[i] = d[u] + 1;//è·¯å¾„åŠ ä¸€
+				path[i] =u;//æ ‡è®°æ¥æº
 				visited[i] = true;
 				EnQueue(q, i);
 			}
 		}
 	}
 }
-//µÏ½ÜË¹ÌØÀ­
+//è¿ªæ°æ–¯ç‰¹æ‹‰
 // final[];dist[];path[];
-//¸¥ÂåÒÁµÂ
+//å¼—æ´›ä¼Šå¾·
 int Fpath[MAXSIZE][MAXSIZE];
 void Floye(MGraph G) {
-	for (int k = 0; k < G.vexnum; k++)//Ã¿¸ö½ÚµãÔÊĞíÒ»´Î£¨ÀÛ¼Ó£©
+	for (int k = 0; k < G.vexnum; k++)//æ¯ä¸ªèŠ‚ç‚¹å…è®¸ä¸€æ¬¡ï¼ˆç´¯åŠ ï¼‰
 	{
-		for (int i = 0; i < G.vexnum; i++)//¼ì²éiĞĞ
+		for (int i = 0; i < G.vexnum; i++)//æ£€æŸ¥iè¡Œ
 		{
-			for (int j = 0; j < G.vexnum; j++)//¼ì²éjÁĞ
+			for (int j = 0; j < G.vexnum; j++)//æ£€æŸ¥jåˆ—
 			{
-				if (G.edge[i][j] > G.edge[i][k] + G.edge[k][j]) {//ËµÃ÷ÔÊĞí¾­¹ıkÊ±ÓĞ¸ü½üµÄÂ·¾¶
-					G.edge[i][j] = G.edge[i][k] + G.edge[k][j];//¸üĞÂ
-					Fpath[i][j] = k;//¼ÇÂ¼ÖĞ×ª½Úµã
+				if (G.edge[i][j] > G.edge[i][k] + G.edge[k][j]) {//è¯´æ˜å…è®¸ç»è¿‡kæ—¶æœ‰æ›´è¿‘çš„è·¯å¾„
+					G.edge[i][j] = G.edge[i][k] + G.edge[k][j];//æ›´æ–°
+					Fpath[i][j] = k;//è®°å½•ä¸­è½¬èŠ‚ç‚¹
 				}
 			}
 		}
 	}
 }
-//ÓĞÏòÎŞ»·Í¼DGAÃèÊö±í´ïÊ½
-//¾ÍÊÇ°ÑÃèÊöËãÊõ±í´ïÊ½µÄÊ÷½øĞĞÓÅ»¯£¬Èç¹ûÓĞÏàÍ¬µÄ×ÓÊ÷£¬Ôò¿ÉÒÔºÏ²¢ÎªÒ»¸ö£»
+//æœ‰å‘æ— ç¯å›¾DGAæè¿°è¡¨è¾¾å¼
+//å°±æ˜¯æŠŠæè¿°ç®—æœ¯è¡¨è¾¾å¼çš„æ ‘è¿›è¡Œä¼˜åŒ–ï¼Œå¦‚æœæœ‰ç›¸åŒçš„å­æ ‘ï¼Œåˆ™å¯ä»¥åˆå¹¶ä¸ºä¸€ä¸ªï¼›
 
-//ÍØÆËÅÅĞòAOVÍø(Ò»¶¨ÊÇÓĞÏòÎŞ»·Í¼DAG£¬·ñÔò²»ÄÜÍØÆË£¬¾ÍÊÇ°´ÊÂÇéµÄÖ´ĞĞÑ¡ºóË³ĞòÅÅ£©
-int print[MAXSIZE];//¼ÇÂ¼°´ÍØÆËË³ĞòµÄ½ÚµãÊı×é
-int degree[MAXSIZE];//¼ÇÂ¼×î³õµÄ¸÷¸ö¶¥µãµÄÈë¶ÈÊı£»
-int s[MAXSIZE];//Ä£ÄâÕ»
+//æ‹“æ‰‘æ’åºAOVç½‘(ä¸€å®šæ˜¯æœ‰å‘æ— ç¯å›¾DAGï¼Œå¦åˆ™ä¸èƒ½æ‹“æ‰‘ï¼Œå°±æ˜¯æŒ‰äº‹æƒ…çš„æ‰§è¡Œé€‰åé¡ºåºæ’ï¼‰
+int print[MAXSIZE];//è®°å½•æŒ‰æ‹“æ‰‘é¡ºåºçš„èŠ‚ç‚¹æ•°ç»„
+int degree[MAXSIZE];//è®°å½•æœ€åˆçš„å„ä¸ªé¡¶ç‚¹çš„å…¥åº¦æ•°ï¼›
+int s[MAXSIZE];//æ¨¡æ‹Ÿæ ˆ
 bool ToPuSort(ALGraph al) {
 	int top = -1; 
 	int i;
 	for (i = 0; i < al.vexnum; i++)
 	{
-		//ÏÈÕÒÈë¶ÈÎª0µÄµã£¬È«²¿ÈëÕ»
+		//å…ˆæ‰¾å…¥åº¦ä¸º0çš„ç‚¹ï¼Œå…¨éƒ¨å…¥æ ˆ
 		if (degree[i] == 0) {
 			s[++top] = i;
 		}
 	}
-	//ÓÃÓÚ±ê¼Ç½Úµã¸öÊı
+	//ç”¨äºæ ‡è®°èŠ‚ç‚¹ä¸ªæ•°
 		int count = 0;
-	//Õ»²»¿Õ£¨´æÔÚ¶ÈÎª0µÄµã£©¾ÍÒ»Ö±Ñ­»·
+	//æ ˆä¸ç©ºï¼ˆå­˜åœ¨åº¦ä¸º0çš„ç‚¹ï¼‰å°±ä¸€ç›´å¾ªç¯
 		while (top!=-1)
 		{
-			//³öÕ»
+			//å‡ºæ ˆ
 			i = s[top--];
-			//ÓÃÊı×é¼ÇÂ¼ÍØÆËË³Ğò
+			//ç”¨æ•°ç»„è®°å½•æ‹“æ‰‘é¡ºåº
 			print[count++] = i;
-			//½«³öÕ»½ÚµãÖ¸Ïò½ÚµãµÄÈë¶È¼õÒ»£¬Ë³±ã¼ì²âÈç¹ûÎª0£¬Ôò½«ÆäÈëÕ»
+			//å°†å‡ºæ ˆèŠ‚ç‚¹æŒ‡å‘èŠ‚ç‚¹çš„å…¥åº¦å‡ä¸€ï¼Œé¡ºä¾¿æ£€æµ‹å¦‚æœä¸º0ï¼Œåˆ™å°†å…¶å…¥æ ˆ
 			for (ArcNode *w =al.vertices[i].Firstarc; w ; w=w->nextarc)
 			{
 				int j = w->adjvex;
-				//Ë³±ã¼ì²âÈç¹ûÎª0£¬Ôò½«ÆäÈëÕ»
+				//é¡ºä¾¿æ£€æµ‹å¦‚æœä¸º0ï¼Œåˆ™å°†å…¶å…¥æ ˆ
 				if (!--degree[j]) {
 					s[++top] = j;
 				}
 			}
 		}//while
-		//countĞ¡ÓÚ½ÚµãÊıËµÃ÷ÓĞ»ØÂ·£¬ÍØÆËÊ§°Ü
+		//countå°äºèŠ‚ç‚¹æ•°è¯´æ˜æœ‰å›è·¯ï¼Œæ‹“æ‰‘å¤±è´¥
 		if (count < al.vexnum)return false;
 		else return true;
 }
-//ÄæÍØÆËÅÅĞò(³ö¶ÈÎª0£©
-//print[]¼ÇÂ¼ÄæÍØÆËË³Ğò
-//degree¼ÇÂ¼³ö¶ÈÊı
+//é€†æ‹“æ‰‘æ’åº(å‡ºåº¦ä¸º0ï¼‰
+//print[]è®°å½•é€†æ‹“æ‰‘é¡ºåº
+//degreeè®°å½•å‡ºåº¦æ•°
 bool ReverseTopoSort(MGraph G) {
 	int top = -1, i = 0;
 	for (int i = 0; i < G.vexnum; i++)
@@ -446,7 +447,7 @@ bool ReverseTopoSort(MGraph G) {
 	if (count < G.vexnum)return false;
 	else return true;
 }
-//Éî¶È±éÀúÊµÏÖÄæÍØÆË
+//æ·±åº¦éå†å®ç°é€†æ‹“æ‰‘
 void DFSReverseTopoSort(ALGraph al, int i) {
 	visited[i] = true;
 	for (ArcNode* w = al.vertices[i].Firstarc; w; w = w->nextarc)
@@ -455,7 +456,7 @@ void DFSReverseTopoSort(ALGraph al, int i) {
 			DFSReverseTopoSort(al, w->adjvex);
 		}
 	}
-	//¸úºóĞò±éÀúÒ»Ñù£¬ÔÚÎ²²¿Êä³ö
+	//è·Ÿååºéå†ä¸€æ ·ï¼Œåœ¨å°¾éƒ¨è¾“å‡º
 	visitAL(al, i);
 }
 void DFSTreaver(ALGraph al) {
@@ -471,7 +472,7 @@ void DFSTreaver(ALGraph al) {
 	}
 }
 
-//DFSÊµÏÖÍØÆË
+//DFSå®ç°æ‹“æ‰‘
 int finaltime[MAXSIZE];
 int time;
 void DFSTopoSort(ALGraph al, int i) {
@@ -499,6 +500,8 @@ void DFSTopoSortTreaver(ALGraph al) {
 }
 
 int main() {
+    // è®¾ç½®æ§åˆ¶å°è¾“å‡ºä¸ºUTF-8ï¼Œè§£å†³ä¸­æ–‡ä¹±ç 
+    SetConsoleOutputCP(65001);
 	ALGraph al;
 	InitALGraph(al, false);
 	al.vertices[0].vexNode = 'a';
@@ -554,18 +557,18 @@ int main() {
 		}
 		printf("]\n");
 	}
-	printf("µã%d\n", m.vexnum);
-	printf("±ß%d\n", m.arcnum);
-	printf("¹ã¶ÈÁÚ½Ó¾ØÕó:\n");
+	printf("ç‚¹%d\n", m.vexnum);
+	printf("è¾¹%d\n", m.arcnum);
+	printf("å¹¿åº¦é‚»æ¥çŸ©é˜µ:\n");
 	BFSTraverse(m);
 	printf("\n");
-	printf("¹ã¶ÈÁÚ½Ó±í:\n");
+	printf("å¹¿åº¦é‚»æ¥è¡¨:\n");
 	BFSALTraverse(al);
 	printf("\n");
-	printf("Éî¶ÈÁÚ½Ó¾ØÕó:\n");
+	printf("æ·±åº¦é‚»æ¥çŸ©é˜µ:\n");
 	DFSTraverse(m);
 	printf("\n");
-	printf("Éî¶ÈÁÚ½Ó±í:\n");
+	printf("æ·±åº¦é‚»æ¥è¡¨:\n");
 	DFSALTraverse(al);
 	printf("\n");
 

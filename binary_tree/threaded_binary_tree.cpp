@@ -1,18 +1,18 @@
 #include<stdio.h>
 #include<malloc.h>
-/*
-//¶ş²æÊ÷ 
+#include<windows.h>
+//äºŒå‰æ ‘ 
 typedef struct BiNode {
 	int data;
 	BiNode* lChild, * rChild;
 }BiNode, * BiTree;
-//ÏßË÷¶ş²æÊ÷ 
+//çº¿ç´¢äºŒå‰æ ‘ 
 typedef struct ThreadNode {
 	int data;
 	ThreadNode* lChild, * rChild;
 	int lTag, rTag;
 }ThreadNode, * ThreadTree;
-//Ê÷³õÊ¼»¯
+//æ ‘åˆå§‹åŒ–
 bool InitTree(ThreadTree& t) {
 	t = (ThreadNode*)malloc(sizeof(ThreadNode));
 	t->data = 1;
@@ -22,7 +22,7 @@ bool InitTree(ThreadTree& t) {
 	t->rTag = 0;
 	return true;
 }
-//Ö¸¶¨½ÚµãÌí¼Ó×óº¢×Ó
+//æŒ‡å®šèŠ‚ç‚¹æ·»åŠ å·¦å­©å­
 bool AddlChild(ThreadNode* q, int data) {
 	ThreadNode* s = (ThreadNode*)malloc(sizeof(ThreadNode));
 	s->data = data;
@@ -33,7 +33,7 @@ bool AddlChild(ThreadNode* q, int data) {
 	q->lChild = s;
 	return true;
 }
-//Ö¸¶¨½ÚµãÌí¼ÓÓÒº¢×Ó
+//æŒ‡å®šèŠ‚ç‚¹æ·»åŠ å³å­©å­
 bool AddrChild(ThreadNode* q, int data) {
 	ThreadNode* s = (ThreadNode*)malloc(sizeof(ThreadNode));
 	s->data = data;
@@ -44,12 +44,12 @@ bool AddrChild(ThreadNode* q, int data) {
 	q->rChild = s;
 	return true;
 }
-//Ç°ĞòÏßË÷»¯£¬¾ßÌåÊµÏÖ
+//å‰åºçº¿ç´¢åŒ–ï¼Œå…·ä½“å®ç°
 void FrontThread(ThreadTree t, ThreadTree& pre) {
 	if (t == NULL) {
 		return;
 	}
-	// ÏßË÷»¯Âß¼­ 
+	// çº¿ç´¢åŒ–é€»è¾‘ 
 	if (t->lChild == NULL) {
 		t->lChild = pre;
 		t->lTag = 1;
@@ -61,14 +61,14 @@ void FrontThread(ThreadTree t, ThreadTree& pre) {
 		printf("%d->rightChild=%d\n", pre->data, t->data);
 	}
 	pre = t;
-	//±éÀúÂß¼­ 
+	//éå†é€»è¾‘ 
 	if (t->lTag == 0) {
 		FrontThread(t->lChild, pre);
 	}
 
 	FrontThread(t->rChild, pre);
 }
-//Ç°ĞòÏßË÷»¯
+//å‰åºçº¿ç´¢åŒ–
 void CreateFrontThread(ThreadTree t) {
 	ThreadNode* pre = NULL;
 	if (t == NULL) {
@@ -80,14 +80,14 @@ void CreateFrontThread(ThreadTree t) {
 		printf("%d->rightChild=NULL\n", pre->data);
 	}
 }
-//ÖĞĞòÏßË÷»¯£¬¾ßÌåÊµÏÖ
+//ä¸­åºçº¿ç´¢åŒ–ï¼Œå…·ä½“å®ç°
 void MiddleThread(ThreadTree t, ThreadTree& pre) {
 	if (t == NULL) {
 		return;
 	}
-	//±éÀúÂß¼­ 
+	//éå†é€»è¾‘ 
 	MiddleThread(t->lChild, pre);
-	// ÏßË÷»¯Âß¼­ 
+	// çº¿ç´¢åŒ–é€»è¾‘ 
 	if (t->lChild == NULL) {
 		t->lChild = pre;
 		t->lTag = 1;
@@ -105,10 +105,10 @@ void MiddleThread(ThreadTree t, ThreadTree& pre) {
 		printf("%d->rightChild=%d\n", pre->data, t->data);
 	}
 	pre = t;
-	//±éÀúÂß¼­ 
+	//éå†é€»è¾‘ 
 	MiddleThread(t->rChild, pre);
 }
-//ÖĞĞòÏßË÷»¯
+//ä¸­åºçº¿ç´¢åŒ–
 void CreateMiddleThread(ThreadTree t) {
 	ThreadNode* pre = NULL;
 	if (t == NULL) {
@@ -120,15 +120,15 @@ void CreateMiddleThread(ThreadTree t) {
 		printf("%d->rightChild=NULL\n", pre->data);
 	}
 }
-//ºóĞòÏßË÷»¯£¬¾ßÌåÊµÏÖ
+//ååºçº¿ç´¢åŒ–ï¼Œå…·ä½“å®ç°
 void FinalThread(ThreadTree t, ThreadTree& pre) {
 	if (t == NULL) {
 		return;
 	}
-	//±éÀúÂß¼­ 
+	//éå†é€»è¾‘ 
 	FinalThread(t->lChild, pre);
 	FinalThread(t->rChild, pre);
-	// ÏßË÷»¯Âß¼­ 
+	// çº¿ç´¢åŒ–é€»è¾‘ 
 	if (t->lChild == NULL) {
 		t->lChild = pre;
 		t->lTag = 1;
@@ -147,7 +147,7 @@ void FinalThread(ThreadTree t, ThreadTree& pre) {
 	}
 	pre = t;
 }
-//ºóĞòÏßË÷»¯
+//ååºçº¿ç´¢åŒ–
 void CreateFinalThread(ThreadTree t) {
 	ThreadNode* pre = NULL;
 	if (t == NULL) {
@@ -159,7 +159,7 @@ void CreateFinalThread(ThreadTree t) {
 		printf("%d->rightChild=NULL\n", pre->data);
 	}
 }
-//Ç°Ğò±éÀú
+//å‰åºéå†
 bool FrontPrint(ThreadTree t) {
 	if (t != NULL) {
 		printf("%d", t->data);
@@ -168,7 +168,7 @@ bool FrontPrint(ThreadTree t) {
 	}
 	return true;
 }
-//ÖĞĞò±éÀú
+//ä¸­åºéå†
 bool MiddlePrint(ThreadTree t) {
 	if (t != NULL) {
 		MiddlePrint(t->lChild);
@@ -177,7 +177,7 @@ bool MiddlePrint(ThreadTree t) {
 	}
 	return true;
 }
-//ºóĞò±éÀú
+//ååºéå†
 bool FinalPrint(ThreadTree t) {
 	if (t != NULL) {
 		FinalPrint(t->lChild);
@@ -186,27 +186,27 @@ bool FinalPrint(ThreadTree t) {
 	}
 	return true;
 }
-//ºóĞò·Çµİ¹é±éÀú,ÕâÀïÓÃÎ´ÏßË÷»¯µÄ¶ş²æÊ÷
+//ååºéé€’å½’éå†,è¿™é‡Œç”¨æœªçº¿ç´¢åŒ–çš„äºŒå‰æ ‘
 bool PostOrder(ThreadTree t) {
 	ThreadNode* p = t, * r = NULL;
 	ThreadNode* stack[100] = {};
-	int top = -1;//ÓÃÊı×éÄ£ÄâÕ»
+	int top = -1;//ç”¨æ•°ç»„æ¨¡æ‹Ÿæ ˆ
 	while (p||top!=-1)
 	{
-		if (p) {                          //p²»Îª¿ÕÔò£¬
-			stack[++top] = p;       //½«ÆäÈëÕ»
-			p = p->lChild;                //²¢pÏò×óº¢×ÓÒÆ¶¯
+		if (p) {                          //pä¸ä¸ºç©ºåˆ™ï¼Œ
+			stack[++top] = p;       //å°†å…¶å…¥æ ˆ
+			p = p->lChild;                //å¹¶på‘å·¦å­©å­ç§»åŠ¨
 		}
-		else {                                  //pÎª¿ÕÊ±ËµÃ÷×óº¢×ÓÃ»ÁË£¬»òÕß¸Õ½«ÔªËØ³öÍêÕ»
-			p = stack[top];                     //ÕâÀïÖ»·ÃÎÊ£¬²»³öÕ¾£¬ÒòÎª¿ÉÄÜ»¹ÓĞÓÒ½ÚµãÃ»ÓĞ±éÀúµ½
-			if (p->rChild && p->rChild != r) {  //pÓÒº¢×Ó²»Îª¿ÕÇÒ²»µÈÓÚ¸Õ³öÕ¾µÄÔªËØ£¬ÕâÀïrÊÇÎªÁË¸Õ±ê¼Ç³öÕ»µÄÓÒº¢×Ó
-				p = p->rChild;                  //Ã»ÓĞ±éÀú¹ıµÄÓÒ½ÚµãÔÚÏÂ´ÎÑ­»·Ê±»á´æÈëÕ»£»
+		else {                                  //pä¸ºç©ºæ—¶è¯´æ˜å·¦å­©å­æ²¡äº†ï¼Œæˆ–è€…åˆšå°†å…ƒç´ å‡ºå®Œæ ˆ
+			p = stack[top];                     //è¿™é‡Œåªè®¿é—®ï¼Œä¸å‡ºç«™ï¼Œå› ä¸ºå¯èƒ½è¿˜æœ‰å³èŠ‚ç‚¹æ²¡æœ‰éå†åˆ°
+			if (p->rChild && p->rChild != r) {  //på³å­©å­ä¸ä¸ºç©ºä¸”ä¸ç­‰äºåˆšå‡ºç«™çš„å…ƒç´ ï¼Œè¿™é‡Œræ˜¯ä¸ºäº†åˆšæ ‡è®°å‡ºæ ˆçš„å³å­©å­
+				p = p->rChild;                  //æ²¡æœ‰éå†è¿‡çš„å³èŠ‚ç‚¹åœ¨ä¸‹æ¬¡å¾ªç¯æ—¶ä¼šå­˜å…¥æ ˆï¼›
 			}
-			else {             //×ßµ½ÕâÀïËµÃ÷pÒÑ¾­Ã»ÓĞ×óº¢×ÓºÍÓÒº¢×ÓÁË£¬ÎÒÃÇÊÇÏÈÅĞ¶ÏÓĞÃ»ÓĞ×ó£¬Ã»ÓĞ×öÔÚÅĞ¶ÏÓÒ£¬×ßµ½ÕâÀïÖ»ÄÜÊÇ×óÓÒ¶¼Ã»ÓĞÁË£¬¶øÇÒpÊÇ×î×ó·ÖÖ§µÄ×î×óÏÂ½Úµã£¬¿ÉÒÔ·ÅĞÄ³öÕ»
-				p = stack[top--];//³öÕ»
-				printf("%d", p->data);//·ÃÎÊ²Ù×÷
-				r = p;     //¼ÇÂ¼µ±Ç°³öÕ»µÄ½Úµã£¬ÏÂ´Î·ÃÎÊÕ»¶¥µÄÔªËØÊÇÆä¸¸½Úµã£¬ÓÃr±ê¼Ç¾Í²»±ØÔÙ´Î±éÀúÁË
-				p = NULL;   //³öÕ»Íê£¬½«pÖÃÎª¿Õ£¬·½±ãÏÂ´Î·ÃÎÊÕ»¶¥ÔªËØ
+			else {             //èµ°åˆ°è¿™é‡Œè¯´æ˜på·²ç»æ²¡æœ‰å·¦å­©å­å’Œå³å­©å­äº†ï¼Œæˆ‘ä»¬æ˜¯å…ˆåˆ¤æ–­æœ‰æ²¡æœ‰å·¦ï¼Œæ²¡æœ‰åšåœ¨åˆ¤æ–­å³ï¼Œèµ°åˆ°è¿™é‡Œåªèƒ½æ˜¯å·¦å³éƒ½æ²¡æœ‰äº†ï¼Œè€Œä¸”pæ˜¯æœ€å·¦åˆ†æ”¯çš„æœ€å·¦ä¸‹èŠ‚ç‚¹ï¼Œå¯ä»¥æ”¾å¿ƒå‡ºæ ˆ
+				p = stack[top--];//å‡ºæ ˆ
+				printf("%d", p->data);//è®¿é—®æ“ä½œ
+				r = p;     //è®°å½•å½“å‰å‡ºæ ˆçš„èŠ‚ç‚¹ï¼Œä¸‹æ¬¡è®¿é—®æ ˆé¡¶çš„å…ƒç´ æ˜¯å…¶çˆ¶èŠ‚ç‚¹ï¼Œç”¨ræ ‡è®°å°±ä¸å¿…å†æ¬¡éå†äº†
+				p = NULL;   //å‡ºæ ˆå®Œï¼Œå°†pç½®ä¸ºç©ºï¼Œæ–¹ä¾¿ä¸‹æ¬¡è®¿é—®æ ˆé¡¶å…ƒç´ 
 			}
 		}//else
 	}//while
@@ -215,6 +215,8 @@ bool PostOrder(ThreadTree t) {
 
 
 int main() {
+    // è®¾ç½®æ§åˆ¶å°è¾“å‡ºä¸ºUTF-8ï¼Œè§£å†³ä¸­æ–‡ä¹±ç 
+    SetConsoleOutputCP(65001);
 	ThreadTree t;
 	InitTree(t);
 	AddlChild(t, 2);
@@ -223,19 +225,18 @@ int main() {
 	AddrChild(t, 3);
 	AddlChild(t->rChild, 6);
 	AddrChild(t->rChild, 7);
-	printf("%--------Ç°Ğò--------\n");
-	//FrontPrint(t);
-	//printf("\n");
-	//CreateFrontThread(t);
-	printf("%--------ÖĞĞò--------\n");
-	//MiddlePrint(t);
-	//printf("\n");
-	//CreateMiddleThread(t);
-	printf("%--------ºóĞò--------\n");
-	//FinalPrint(t);
-	//printf("\n");
-	//CreateFinalThread(t);
+	printf("%--------å‰åº--------\n");
+	FrontPrint(t);
+	printf("\n");
+	CreateFrontThread(t);
+	printf("%--------ä¸­åº--------\n");
+	MiddlePrint(t);
+	printf("\n");
+	CreateMiddleThread(t);
+	printf("%--------ååº--------\n");
+	FinalPrint(t);
+	printf("\n");
+	CreateFinalThread(t);
 	PostOrder(t);
 	return 0;
  }
-*/

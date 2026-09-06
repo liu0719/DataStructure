@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-/*+
+#include<windows.h>
+
 constexpr auto MaxLen = 100;
-//ÏßË÷¶ş²æÊ÷ 
+//çº¿ç´¢äºŒå‰æ ‘ 
 typedef struct ThreadNode {
 	int data;
 	ThreadNode* lChild, * rChild;
@@ -13,7 +14,7 @@ typedef struct CThreadNode {
 	char data;
 	CThreadNode* lChild, * rChild;
 }CThreadNode, * CThreadTree;
-//Ê÷³õÊ¼»¯
+//æ ‘åˆå§‹åŒ–
 bool InitTree(ThreadTree& t) {
 	t = (ThreadNode*)malloc(sizeof(ThreadNode));
 	t->data = 1;
@@ -23,7 +24,7 @@ bool InitTree(ThreadTree& t) {
 	t->rTag = 0;
 	return true;
 }
-//Ê÷³õÊ¼»¯
+//æ ‘åˆå§‹åŒ–
 bool InitCTree(CThreadTree& t,char data) {
 	t = (CThreadNode*)malloc(sizeof(CThreadNode));
 	t->data = data;
@@ -31,7 +32,7 @@ bool InitCTree(CThreadTree& t,char data) {
 	t->rChild = NULL;
 	return true;
 }
-//Ö¸¶¨½ÚµãÌí¼Ó×óº¢×Ó
+//æŒ‡å®šèŠ‚ç‚¹æ·»åŠ å·¦å­©å­
 bool AddlChild(ThreadNode* q, int data) {
 	ThreadNode* s = (ThreadNode*)malloc(sizeof(ThreadNode));
 	s->data = data;
@@ -42,7 +43,7 @@ bool AddlChild(ThreadNode* q, int data) {
 	q->lChild = s;
 	return true;
 }
-//Ö¸¶¨½ÚµãÌí¼ÓÓÒº¢×Ó
+//æŒ‡å®šèŠ‚ç‚¹æ·»åŠ å³å­©å­
 bool AddrChild(ThreadNode* q, int data) {
 	ThreadNode* s = (ThreadNode*)malloc(sizeof(ThreadNode));
 	s->data = data;
@@ -53,7 +54,7 @@ bool AddrChild(ThreadNode* q, int data) {
 	q->rChild = s;
 	return true;
 }
-//Ö¸¶¨½ÚµãÌí¼Ó×óº¢×Ó
+//æŒ‡å®šèŠ‚ç‚¹æ·»åŠ å·¦å­©å­
 bool CAddlChild(CThreadNode* q, int data) {
 	CThreadNode* s = (CThreadNode*)malloc(sizeof(CThreadNode));
 	s->data = data;
@@ -62,7 +63,7 @@ bool CAddlChild(CThreadNode* q, int data) {
 	q->lChild = s;
 	return true;
 }
-//Ö¸¶¨½ÚµãÌí¼ÓÓÒº¢×Ó
+//æŒ‡å®šèŠ‚ç‚¹æ·»åŠ å³å­©å­
 bool CAddrChild(CThreadNode* q, int data) {
 	CThreadNode* s = (CThreadNode*)malloc(sizeof(CThreadNode));
 	s->data = data;
@@ -71,7 +72,7 @@ bool CAddrChild(CThreadNode* q, int data) {
 	q->rChild = s;
 	return true;
 }
-//Õ»
+//æ ˆ
 typedef struct StackNode {
 	ThreadNode* data;
 	StackNode* next;
@@ -102,7 +103,7 @@ bool IsEmptyStack(Stack &s) {
 	}
 	return true;
 }
-//¶ÓÁĞ
+//é˜Ÿåˆ—
 typedef struct QueueNode {
 	ThreadNode* data;
 	QueueNode* next;
@@ -137,33 +138,33 @@ void DeQueue(Queue &q, ThreadNode*& data) {
 	free(p);
 }
 
-//4.Äæ²ãĞò±éÀú ´ÓÏÂµ½ÉÏ£¬´ÓÓÒµ½×ó
+//4.é€†å±‚åºéå† ä»ä¸‹åˆ°ä¸Šï¼Œä»å³åˆ°å·¦
 void InvestLevel(ThreadTree &t) {
-	Stack s ;//³õÊ¼»¯Õ»ºÍ¶ÓÁĞ
+	Stack s ;//åˆå§‹åŒ–æ ˆå’Œé˜Ÿåˆ—
 	InitStack(s);
 	Queue q;
 	InitQueue(q);
 	ThreadNode* p = t;
-	EnQueue(q,p);//½«Í·½áµãÈë¶Ó
-	while (!IsEmptyQueue(q)) {//¶ÓÁĞÎª¿ÕÊ±±íÊ¾ËùÓĞ½Úµã¶¼ÒÑ¾­ÈëÕ»
-		DeQueue(q, p);//³ö¶Ó
-		if (p->lChild) {//³ö¶ÓÔªËØ×óÓÒº¢×ÓÈô´æÔÚ¾ÍÈë¶Ó
+	EnQueue(q,p);//å°†å¤´ç»“ç‚¹å…¥é˜Ÿ
+	while (!IsEmptyQueue(q)) {//é˜Ÿåˆ—ä¸ºç©ºæ—¶è¡¨ç¤ºæ‰€æœ‰èŠ‚ç‚¹éƒ½å·²ç»å…¥æ ˆ
+		DeQueue(q, p);//å‡ºé˜Ÿ
+		if (p->lChild) {//å‡ºé˜Ÿå…ƒç´ å·¦å³å­©å­è‹¥å­˜åœ¨å°±å…¥é˜Ÿ
 			EnQueue(q,p->lChild);
 		}
-		if (p->rChild) {//³ö¶ÓÔªËØ×óÓÒº¢×ÓÈô´æÔÚ¾ÍÈë¶Ó
+		if (p->rChild) {//å‡ºé˜Ÿå…ƒç´ å·¦å³å­©å­è‹¥å­˜åœ¨å°±å…¥é˜Ÿ
 			EnQueue(q, p->rChild);
 		}
-		Push(s,p);//½«³ö¶ÓÔªËØÈëÕ»
-	}//´ËÊ±ËùÓĞ½Úµã¶¼ÒÑ¾­°´Õı³£²ãĞò±éÀúË³ĞòÈëÕ»
-	while (!IsEmptyStack(s)) {//ÒÀ´Î³öÕ»Ö±µ½Õ»¿Õ£¬¼´ÎªÄæ²ã´Î±éÀú
+		Push(s,p);//å°†å‡ºé˜Ÿå…ƒç´ å…¥æ ˆ
+	}//æ­¤æ—¶æ‰€æœ‰èŠ‚ç‚¹éƒ½å·²ç»æŒ‰æ­£å¸¸å±‚åºéå†é¡ºåºå…¥æ ˆ
+	while (!IsEmptyStack(s)) {//ä¾æ¬¡å‡ºæ ˆç›´åˆ°æ ˆç©ºï¼Œå³ä¸ºé€†å±‚æ¬¡éå†
 		Pop(s, p);
 		printf("%d", p->data);
 	}
 }
-//5.»ñÈ¡¶ş²æÊ÷¸ß¶È
+//5.è·å–äºŒå‰æ ‘é«˜åº¦
 int  GetHeight(ThreadTree& t) {
-	//ÖÆÔìÒ»¸ö¶ÓÁĞ£¬ÉèÖÃÒ»¸ölevel¼ÇÂ¼²ã¼¶
-	// µ±³öÕ»µÄÔªËØfront³¬¹ılastÊ±£¬level++¡¢lastÖ¸ÏòÏÂÒ»ÁĞ×îºóÒ»¸öÔªËØ£¨´ËÊ±ÏÂÒ»ÁĞÒÑ¾­Èë¶Ó£©
+	//åˆ¶é€ ä¸€ä¸ªé˜Ÿåˆ—ï¼Œè®¾ç½®ä¸€ä¸ªlevelè®°å½•å±‚çº§
+	// å½“å‡ºæ ˆçš„å…ƒç´ frontè¶…è¿‡lastæ—¶ï¼Œlevel++ã€lastæŒ‡å‘ä¸‹ä¸€åˆ—æœ€åä¸€ä¸ªå…ƒç´ ï¼ˆæ­¤æ—¶ä¸‹ä¸€åˆ—å·²ç»å…¥é˜Ÿï¼‰
 	ThreadNode* q[100]{};
 	int front = -1, rear = -1, level = 0, last = 0;
 	ThreadNode* p = t;
@@ -179,7 +180,7 @@ int  GetHeight(ThreadTree& t) {
 	}
 	return level;
 }
-//6.ÅĞ¶ÏÊÇ·ñÊÇÍêÈ«¶ş²æÊ÷
+//6.åˆ¤æ–­æ˜¯å¦æ˜¯å®Œå…¨äºŒå‰æ ‘
 bool IsCompleteBiTree(ThreadTree& t) {
 	Queue q; InitQueue(q);
 	ThreadNode* p = t;
@@ -202,7 +203,7 @@ bool IsCompleteBiTree(ThreadTree& t) {
 	}
 	return true;
 }
-//7.ÓµÓĞË«×Ó½ÚµãµÄ¸öÊı
+//7.æ‹¥æœ‰åŒå­èŠ‚ç‚¹çš„ä¸ªæ•°
 int DoubleChildNodeNum(ThreadTree& t) {
 	if (!t) { return 0; }
 	if (t->lChild && t->rChild) {
@@ -212,7 +213,7 @@ int DoubleChildNodeNum(ThreadTree& t) {
 		return DoubleChildNodeNum(t->lChild) + DoubleChildNodeNum(t->rChild);
 	}
 }
-//8.½»»»×óÓÒ×ÓÊ÷
+//8.äº¤æ¢å·¦å³å­æ ‘
 void Exchange(ThreadTree& t) {
 	if (!t) { return; }
 	Exchange(t->lChild);
@@ -222,7 +223,7 @@ void Exchange(ThreadTree& t) {
 	t->lChild = temp;
 }
 int i = 1;
-//ÏÈĞò±éÀúÆäÖĞÎªxµÄÖµ
+//å…ˆåºéå†å…¶ä¸­ä¸ºxçš„å€¼
 int  SelectKValue(ThreadTree& t,int k) {
 	if (t == NULL) {
 		return'#';
@@ -239,19 +240,19 @@ int  SelectKValue(ThreadTree& t,int k) {
 	return ch;
 
 }
-//9.ºóĞòÉ¾³ıÒÔtÎª¸ù½ÚµãµÄÊ÷
+//9.ååºåˆ é™¤ä»¥tä¸ºæ ¹èŠ‚ç‚¹çš„æ ‘
 void DeleteTreeNode(ThreadTree t) {
 	if (!t) { return; }
 	DeleteTreeNode(t->lChild);
 	DeleteTreeNode(t->rChild);
 	free(t);
 }
-//10.É¾³ıÒÔxÎª¸ù½ÚµãµÄ×ÓÊ÷
+//10.åˆ é™¤ä»¥xä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
 void PostOrderX(ThreadTree t, int x) {
 	if (!t) { return; }
-	if (t->lChild && t->lChild->data == x) {//µ¥ÓÃÒ»¸ödata==x»á³öÏÖ·ÃÎÊ²»µ½Ò¶½Úµãº¢×ÓµÄ´íÎó
-		DeleteTreeNode(t->lChild);//µ÷ÓÃºóĞòÉ¾³ıº¯Êı
-		t->lChild = NULL;//É¾³ıÍê³ÉºóÒª½«×óº¢×ÓÖ¸ÕëÖÃÎªNULL
+	if (t->lChild && t->lChild->data == x) {//å•ç”¨ä¸€ä¸ªdata==xä¼šå‡ºç°è®¿é—®ä¸åˆ°å¶èŠ‚ç‚¹å­©å­çš„é”™è¯¯
+		DeleteTreeNode(t->lChild);//è°ƒç”¨ååºåˆ é™¤å‡½æ•°
+		t->lChild = NULL;//åˆ é™¤å®Œæˆåè¦å°†å·¦å­©å­æŒ‡é’ˆç½®ä¸ºNULL
 	}
 	if (t->rChild && t->rChild->data == x) {
 		DeleteTreeNode(t->rChild);
@@ -261,7 +262,7 @@ void PostOrderX(ThreadTree t, int x) {
 	PostOrderX(t->rChild,x);
 	
 }
-//11.´òÓ¡xµÄËùÓĞ×æÏÈ£¬Í¬·Çµİ¹éºóĞò±éÀú
+//11.æ‰“å°xçš„æ‰€æœ‰ç¥–å…ˆï¼ŒåŒéé€’å½’ååºéå†
 void PrintXParents(ThreadTree t,int x) {
 	ThreadNode* p = t, * r = NULL; Stack s; InitStack(s);
 	while (p||!IsEmptyStack(s)) {
@@ -290,7 +291,7 @@ void PrintXParents(ThreadTree t,int x) {
 		printf("%d", p->data);
 	}
 }
-//12.×î½ü¹«¹²×æÏÈ
+//12.æœ€è¿‘å…¬å…±ç¥–å…ˆ
 int BothOrigin(ThreadTree root, ThreadNode* p, ThreadNode* q, ThreadNode* r) {
 	r = root;
 	int ch='#';
@@ -313,7 +314,7 @@ int BothOrigin(ThreadTree root, ThreadNode* p, ThreadNode* q, ThreadNode* r) {
 		return r->data;
 	}
 }
-//13.Çó¶ş²æÊ÷¿í¶È
+//13.æ±‚äºŒå‰æ ‘å®½åº¦
 int GetWidth(ThreadTree t) {
 	if (!t) { return 0; }
 	ThreadNode* q[100]{};
@@ -333,7 +334,7 @@ int GetWidth(ThreadTree t) {
 		}
 		return Width;
 }
-//15.Âú¶ş²æÏÈĞòÇóºóĞò
+//15.æ»¡äºŒå‰å…ˆåºæ±‚ååº
 void PreGetPost(char pre[],int l1,int h1,char post[],int l2,int h2) {
 	int half;
 	
@@ -344,7 +345,7 @@ void PreGetPost(char pre[],int l1,int h1,char post[],int l2,int h2) {
 		PreGetPost(pre, l1 + half + 1, h1, post, l2+half , h2-1);
 	}
 }
-//16.Ò¶½ÚµãÁ¬³Éµ¥Á´±í
+//16.å¶èŠ‚ç‚¹è¿æˆå•é“¾è¡¨
 void LeafLinkNode(ThreadTree t,ThreadTree &pre) {
 	if (!t) { return; }
 	LeafLinkNode(t->lChild, pre);
@@ -355,10 +356,10 @@ void LeafLinkNode(ThreadTree t,ThreadTree &pre) {
 	}
 }
 
-//18.´øÀ¨ºÅµÄÖĞ×º±í´ïÊ½
-void BiTreeInExp(CThreadTree t, int deep) {//ÓÃÉî¶ÈÀ´ÅĞ¶ÏÊÇ·ñÒª¼ÓÀ¨ºÅ
+//18.å¸¦æ‹¬å·çš„ä¸­ç¼€è¡¨è¾¾å¼
+void BiTreeInExp(CThreadTree t, int deep) {//ç”¨æ·±åº¦æ¥åˆ¤æ–­æ˜¯å¦è¦åŠ æ‹¬å·
 	if (!t) { return; }
-	else if (!t->lChild && !t->rChild) { //·ûºÅ²»¿ÉÄÜ³öÏÖÔÚÒ¶×Ó½áµãÉÏ
+	else if (!t->lChild && !t->rChild) { //ç¬¦å·ä¸å¯èƒ½å‡ºç°åœ¨å¶å­ç»“ç‚¹ä¸Š
 		printf("%c", t->data);
 	}
 	else {
@@ -393,7 +394,8 @@ int Height(ThreadTree t) {
 	}
 }
 int main(){
-	
+	// è®¾ç½®æ§åˆ¶å°è¾“å‡ºä¸ºUTF-8ï¼Œè§£å†³ä¸­æ–‡ä¹±ç 
+    SetConsoleOutputCP(65001);
 	ThreadTree t;
 	InitTree(t);
 	AddlChild(t, 2);
@@ -402,25 +404,25 @@ int main(){
 	//AddrChild(t, 3);
 	//AddlChild(t->rChild, 6);
 	//AddrChild(t->rChild, 7);
-	//4ÏÂÃæ¹Ò
+	//4ä¸‹é¢æŒ‚
 	//AddlChild(t->lChild->lChild, 8);
 	//AddrChild(t->lChild->lChild, 9);
-	//5ÏÂÃæ
+	//5ä¸‹é¢
 	AddlChild(t->lChild->rChild, 10);
 	AddlChild(t->lChild->rChild->lChild, 8);
 	AddlChild(t->lChild->rChild->lChild->lChild, 9);
 	AddrChild(t->lChild->rChild, 11);
-	//6ÏÂÃæ
+	//6ä¸‹é¢
 	//AddlChild(t->rChild->lChild, 12);
 	//AddrChild(t->rChild->lChild, 13);
-	//7ÏÂÃæ
+	//7ä¸‹é¢
 	//AddlChild(t->rChild->rChild, 14);
 	//AddrChild(t->rChild->rChild, 15);
-	//Äæ²ã´Î±éÀú
+	//é€†å±‚æ¬¡éå†
 	
 	//InvestLevel(t);
 	
-	//´òÓ¡Ö¸¶¨½ÚµãµÄËùÓĞ×æÏÈ
+	//æ‰“å°æŒ‡å®šèŠ‚ç‚¹çš„æ‰€æœ‰ç¥–å…ˆ
 	//int height=GetHeight(t);
 	//printf("%d", height);
 	//PrintXParents(t, 8);
@@ -477,4 +479,3 @@ int main(){
 	
 	printf("%d",Height(t));
 }
-*/

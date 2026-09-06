@@ -1,10 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<windows.h>
 typedef struct DNode {
 	int data;
 	DNode* prior, * next;
 }DNode,*DLinkList;
-//Á´±í³õÊ¼»¯
+//é“¾è¡¨åˆå§‹åŒ–
 bool DInit(DLinkList &L) {
 	L = (DNode*)malloc(sizeof(DNode));
 	if (L == NULL) {
@@ -14,15 +15,15 @@ bool DInit(DLinkList &L) {
 	L->next = NULL;
 	return true;
 }
-//Ö¸¶¨½Úµãºó²åÈë
-bool DInsertAfter(DLinkList &L,DNode *p,int e) {//pÎªÖ¸¶¨½Úµã£¬eÎ´²åÈëÔªËØ
+//æŒ‡å®šèŠ‚ç‚¹åæ’å…¥
+bool DInsertAfter(DLinkList &L,DNode *p,int e) {//pä¸ºæŒ‡å®šèŠ‚ç‚¹ï¼Œeæœªæ’å…¥å…ƒç´ 
 	if (p == NULL || L->next == NULL) {
 		return false;
 	}
 	DNode *s = (DNode*)malloc(sizeof(DNode));
 	s->data = e;
 	s->next = p->next;
-	//´¦ÀípÎª×îºóÒ»¸öÔªËØµÄÇé¿ö
+	//å¤„ç†pä¸ºæœ€åä¸€ä¸ªå…ƒç´ çš„æƒ…å†µ
 	if (p->next != NULL) {
 		p->next->prior = s;
 	}
@@ -30,7 +31,7 @@ bool DInsertAfter(DLinkList &L,DNode *p,int e) {//pÎªÖ¸¶¨½Úµã£¬eÎ´²åÈëÔªËØ
 	p->next = s;
 	return true;
 }
-//Ö¸¶¨½ÚµãÇ°²åÈë
+//æŒ‡å®šèŠ‚ç‚¹å‰æ’å…¥
 bool DInsertBefore(DLinkList& L, DNode* p, int e) {
 	if (p == L || p == NULL) {
 		return false;
@@ -43,7 +44,7 @@ bool DInsertBefore(DLinkList& L, DNode* p, int e) {
 	p->prior = s;
 	return true;
 }
-//É¾³ıÖ¸¶¨½ÚµãpµÄºó¼Ì½Úµã
+//åˆ é™¤æŒ‡å®šèŠ‚ç‚¹pçš„åç»§èŠ‚ç‚¹
 bool DDeleteAfterNode(DLinkList& L, DNode* p) {
 	if (p == NULL || p->next == NULL) {
 		return false; 
@@ -56,7 +57,7 @@ bool DDeleteAfterNode(DLinkList& L, DNode* p) {
 	free(q);
 	return true;
 }
-//É¾³ıÖ¸¶¨½ÚµãpµÄÇ°Çı½Úµã
+//åˆ é™¤æŒ‡å®šèŠ‚ç‚¹pçš„å‰é©±èŠ‚ç‚¹
 bool DDeleteBeforeNode(DLinkList& L, DNode* p) {
 	if (p == L || p == NULL||p->prior==L) {
 		return false;
@@ -68,12 +69,12 @@ bool DDeleteBeforeNode(DLinkList& L, DNode* p) {
 	free(q);
 	return true;
 }
-//Í·²å·¨
+//å¤´æ’æ³•
 DLinkList DHeadInsert(DLinkList& L) {
 	L= (DNode*)malloc(sizeof(DNode));
 	L->next = NULL; L->prior = NULL;
 	int x;
-	printf("Ë«Á´±íÍ·²å·¨£¬ÇëÊäÈë\n");
+	printf("åŒé“¾è¡¨å¤´æ’æ³•ï¼Œè¯·è¾“å…¥\n");
 	scanf_s(" %d", &x);
 	while (x != -1) {
 		DNode *s= (DNode*)malloc(sizeof(DNode));
@@ -84,22 +85,22 @@ DLinkList DHeadInsert(DLinkList& L) {
 		}
 		s->prior = L;
 		L->next = s;
-		printf("Ìí¼Ó³É¹¦£¬ÊäÈë-1ÍË³ö\n");
+		printf("æ·»åŠ æˆåŠŸï¼Œè¾“å…¥-1é€€å‡º\n");
 		scanf_s("%d", &x);
 		
 	}
 	return L;
 }
-//Î²²å·¨ 
+//å°¾æ’æ³• 
 DLinkList DTailInsert(DLinkList &L) {
 	L = (DNode*)malloc(sizeof(DNode));
 	L->next = NULL; L->prior = NULL;
-	DNode* R = L;//¶¨ÒåÎ²Ö¸Õë
-	while (R->next != NULL) {//Ñ­»·µ½×îºóÒ»¸öÊı¾İ
+	DNode* R = L;//å®šä¹‰å°¾æŒ‡é’ˆ
+	while (R->next != NULL) {//å¾ªç¯åˆ°æœ€åä¸€ä¸ªæ•°æ®
 		R = R->next;
 	}
 	int x;
-	printf("Ë«Á´±íÎ²²å·¨£¬ÇëÊäÈë\n");
+	printf("åŒé“¾è¡¨å°¾æ’æ³•ï¼Œè¯·è¾“å…¥\n");
 	scanf_s("%d", &x);
 	while (x != -1) {
 		DNode *s=(DNode*)malloc(sizeof(DNode));
@@ -108,13 +109,13 @@ DLinkList DTailInsert(DLinkList &L) {
 		s->prior = R;
 		R->next = s;
 		R = R->next;
-		printf("Ìí¼Ó³É¹¦£¬ÊäÈë-1ÍË³ö\n");
+		printf("æ·»åŠ æˆåŠŸï¼Œè¾“å…¥-1é€€å‡º\n");
 		scanf_s("%d", &x);
 		
 	}
 	return L;
 }
-//´òÓ¡º¯Êı
+//æ‰“å°å‡½æ•°
 void DPrintList(DLinkList& L) {
 	DNode* p = L->next;
 	while (p != NULL) {
@@ -125,25 +126,27 @@ void DPrintList(DLinkList& L) {
 	return;
 }
 int main() {
+    // æ§åˆ¶å°è¾“å‡ºä¸­æ–‡ä¹±ç é—®é¢˜
+    SetConsoleOutputCP(65001);
 	DLinkList L;
-	TailInsert(L);
-	//Éú³ÉÁ´±í
-	PrintList(L);
-	printf("ºóÔö\n");
+	DTailInsert(L);
+	//ç”Ÿæˆé“¾è¡¨
+	DPrintList(L);
+	printf("åå¢\n");
 	DNode* q = L;
 	for (int i = 0; i < 4; i++) {
 		q = q->next;
 	}
-	InsertAfter(L, q, 100);
-	PrintList(L);
-	printf("Ç°Ôö\n");
-	InsertBefore(L, q, 100);
-	PrintList(L);
-	printf("Ç°É¾\n");
-	DeleteBeforeNode(L, q->prior);
-	PrintList(L);
-	printf("ºóÉ¾\n");
-	DeleteAfterNode(L, q->prior);
-	PrintList(L);
+	DInsertAfter(L, q, 100);
+	DPrintList(L);
+	printf("å‰å¢\n");
+	DInsertBefore(L, q, 100);
+	DPrintList(L);
+	printf("å‰åˆ \n");
+	DDeleteBeforeNode(L, q->prior);
+	DPrintList(L);
+	printf("ååˆ \n");
+	DDeleteAfterNode(L, q->prior);
+	DPrintList(L);
 	return 1;
 }

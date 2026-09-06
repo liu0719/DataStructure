@@ -1,53 +1,54 @@
 #include<stdio.h>
 #include<string.h>
+#include<windows.h>
 #define MAXLENGTH 10
 
 typedef struct Stack {
 	int data[MAXLENGTH];
 	int top;
 }SqStack;
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 bool InItShStack(SqStack& S) {
 	S.top = -1;
 	S.top = MAXLENGTH;
 	return true;
 }
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 bool InitStack(SqStack& S) {
 	S.top = -1;
-	//topÒ²¿ÉÒÔÖ¸Ïò0
+	//topä¹Ÿå¯ä»¥æŒ‡å‘0
 	return true;
 }
-//ÅĞ¿Õ
+//åˆ¤ç©º
 bool IsEmpty(SqStack& S) {
 	if (S.top == -1) {//S.top==0;
 		return true;
 	}
 	return false;
 }
-//ÈëÕ»
+//å…¥æ ˆ
 bool Push(SqStack& S, int x) {
 	if (S.top == MAXLENGTH - 1) {
 		return false;
 	}
 	S.data[++S.top] = x;
-	//top³õÊ¼Îª0µÄ»°ÒªÏÈ¸´ÖÆÔÚ×ÔÔö
+	//topåˆå§‹ä¸º0çš„è¯è¦å…ˆå¤åˆ¶åœ¨è‡ªå¢
 	//S.data[S.top++] = x;
 	return true;
 }
-//³öÕ»
+//å‡ºæ ˆ
 bool Pop(SqStack& s, int& x) {
 	if (s.top == -1) {
 		return false;
 	}
 	x = s.data[s.top--];
-	//ÏÈ×Ô¼õÔÙÔöÖµ
+	//å…ˆè‡ªå‡å†å¢å€¼
 	//x = S.data[--S.top];
 	return true;
 }
-//ÀûÓÃÕ»½øĞĞÀ¨ºÅ¼ì²é
+//åˆ©ç”¨æ ˆè¿›è¡Œæ‹¬å·æ£€æŸ¥
 bool BracketCheck(char a[], int length) {
-	//¿ÉÒÔÓÃÕ»ÊµÏÖ£¬Ò²¿ÉÒÔÓÃÊı×éÄ£·ÂÕ»ÊµÏÖ
+	//å¯ä»¥ç”¨æ ˆå®ç°ï¼Œä¹Ÿå¯ä»¥ç”¨æ•°ç»„æ¨¡ä»¿æ ˆå®ç°
 	//Stack s;
 	//InitStack(s);
 	char b[100] = {};
@@ -59,7 +60,7 @@ bool BracketCheck(char a[], int length) {
 			b[++top] = a[i];
 			continue;
 		}
-		//³öÏÖÕâÈıÖÖÀ¨ºÅ£¬¶øÇÒ¶ÓÁĞÎª¿ÕÖ±½Ó·µ»Ø´íÎó£¬Æ¥ÅäÊ§°Ü
+		//å‡ºç°è¿™ä¸‰ç§æ‹¬å·ï¼Œè€Œä¸”é˜Ÿåˆ—ä¸ºç©ºç›´æ¥è¿”å›é”™è¯¯ï¼ŒåŒ¹é…å¤±è´¥
 		else {
 			//if (IsEmpty(s)){
 				//return false;
@@ -89,7 +90,7 @@ bool BracketCheck(char a[], int length) {
 			}continue;
 		}
 	}
-	//ÓÃÕ»ÊµÏÖ
+	//ç”¨æ ˆå®ç°
 		//if (!IsEmpty(s)) {
 			//return false;
 		//}
@@ -99,13 +100,15 @@ bool BracketCheck(char a[], int length) {
 	return true;
 }
 int main() {
+    // ä¸­æ–‡ä¹±ç é—®é¢˜
+    SetConsoleOutputCP(65001); // è®¾ç½®æ§åˆ¶å°è¾“å‡ºä¸º UTF-8 ç¼–ç 
 	char a[100] = "{[((()())())]}";
 	bool flag = BracketCheck(a, strlen(a));
 		if (flag) {
-			printf("Æ¥Åä³É¹¦\n");
+			printf("åŒ¹é…æˆåŠŸ\n");
 		}
 		else {
-			printf("Æ¥Åä³öÏÖ´íÎó\n");
+			printf("åŒ¹é…å‡ºç°é”™è¯¯\n");
 		}
 	return 0;
 }

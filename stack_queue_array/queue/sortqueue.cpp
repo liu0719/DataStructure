@@ -3,37 +3,37 @@
 typedef struct Queue {
 	int data[MAXSIZE];
 	int front, rear;
-	//ÒªÇó²»ÄÜÊ£×îºóÒ»¸ö¿Õ¼äÊ±£¬¿ÉÒÔÓÃ³¤¶ÈÀ´ÅĞ¿ÕºÍÅĞÂú£¬q.length==0,q.length==10
+	//è¦æ±‚ä¸èƒ½å‰©æœ€åä¸€ä¸ªç©ºé—´æ—¶ï¼Œå¯ä»¥ç”¨é•¿åº¦æ¥åˆ¤ç©ºå’Œåˆ¤æ»¡ï¼Œq.length==0,q.length==10
 	int length;
-	//Ò²¿ÉÒÔÓÃtagÀ´±ê¼Ç×î½üÒ»´Î²Ù×÷£¬³ö¶ÓÁĞÎªfalse£¬Èë¶ÓÁĞÎªtrue;
-	// Ö»ÓĞ³ö¶ÓÁĞ»áµ¼ÖÂ¶ÓÁĞÎª¿ÕËùÒÔµ±  q.front==q.rear&&tag==false,
-	//Ö»ÓĞÈë¶ÓÁĞ»áµ¼ÖÂ¶ÓÁĞ±äÂú£¬ËùÒÔµ± q.front==q.rear&&tag==true,
-	//ÕâÁ½ÖÖÇé¿ö¾Í¿ÉÒÔÇø·ÖÁË
+	//ä¹Ÿå¯ä»¥ç”¨tagæ¥æ ‡è®°æœ€è¿‘ä¸€æ¬¡æ“ä½œï¼Œå‡ºé˜Ÿåˆ—ä¸ºfalseï¼Œå…¥é˜Ÿåˆ—ä¸ºtrue;
+	// åªæœ‰å‡ºé˜Ÿåˆ—ä¼šå¯¼è‡´é˜Ÿåˆ—ä¸ºç©ºæ‰€ä»¥å½“  q.front==q.rear&&tag==false,
+	//åªæœ‰å…¥é˜Ÿåˆ—ä¼šå¯¼è‡´é˜Ÿåˆ—å˜æ»¡ï¼Œæ‰€ä»¥å½“ q.front==q.rear&&tag==true,
+	//è¿™ä¸¤ç§æƒ…å†µå°±å¯ä»¥åŒºåˆ†äº†
 	bool tag;
 }Queue;
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 bool InitQueue(Queue &q) {
-	//Ò²ÓĞ¿ÉÄÜ¶ÓÎ²Ö¸ÕëÖ¸Ïò¶ÓÎ²ÔªËØ£¬ÄÇÃ´ÊµÏÖÈë¶ÓÊ±ÒªÏÈÈÃ(rear=rear+1)%MAXSIZE(ÏòºóÅ²Ò»Î»£¬ÔÚºóÔÙ½øĞĞ¸³Öµ
-	//Î²Ö¸Õë³õÊ¼»¯Ê±Î»ÖÃ·¢Éú±ä»¯£¬ÄÇÃ´ÅĞ¿Õ²Ù×÷Ò²Òª·¢Éú±ä»¯
-	q.front =q.rear =  0;//¶¼Ö¸Ïò0£¬Èë¶Órear++,³ö¶Ófront++
+	//ä¹Ÿæœ‰å¯èƒ½é˜Ÿå°¾æŒ‡é’ˆæŒ‡å‘é˜Ÿå°¾å…ƒç´ ï¼Œé‚£ä¹ˆå®ç°å…¥é˜Ÿæ—¶è¦å…ˆè®©(rear=rear+1)%MAXSIZE(å‘åæŒªä¸€ä½ï¼Œåœ¨åå†è¿›è¡Œèµ‹å€¼
+	//å°¾æŒ‡é’ˆåˆå§‹åŒ–æ—¶ä½ç½®å‘ç”Ÿå˜åŒ–ï¼Œé‚£ä¹ˆåˆ¤ç©ºæ“ä½œä¹Ÿè¦å‘ç”Ÿå˜åŒ–
+	q.front =q.rear =  0;//éƒ½æŒ‡å‘0ï¼Œå…¥é˜Ÿrear++,å‡ºé˜Ÿfront++
 	return true;
 
 }
-//ÅĞ¿Õ
+//åˆ¤ç©º
 bool IsEmpty(Queue& q) {
 	if (q.front == q.rear) {
 		return true;
 	}
 	return false;
 }
-//ÅĞÂú£¬ÕâÖÖÅĞ¶Ï·½Ê½×îºóÒ»¸ö±ØĞëÊÇ¿ÕµÄ£¬±ØĞëÒªÊ£³ö×îºóÒ»¸ö¿Õ¼äÅĞÂú
+//åˆ¤æ»¡ï¼Œè¿™ç§åˆ¤æ–­æ–¹å¼æœ€åä¸€ä¸ªå¿…é¡»æ˜¯ç©ºçš„ï¼Œå¿…é¡»è¦å‰©å‡ºæœ€åä¸€ä¸ªç©ºé—´åˆ¤æ»¡
 bool IsFull(Queue &q) {
 	if ((q.rear + 1)%MAXSIZE == q.front) {
 		return true;
 	}
 	return false;
 }
-//Èë¶Ó
+//å…¥é˜Ÿ
 bool EnQueue(Queue& q, int x) {
 	if ((q.rear + 1) % MAXSIZE == q.front) {
 		return false;
@@ -42,10 +42,10 @@ bool EnQueue(Queue& q, int x) {
 	q.rear = (q.rear + 1) % MAXSIZE;
 	return true;
 }
-//³ö¶Ó
+//å‡ºé˜Ÿ
 bool DeQueue(Queue& q, int &x) {
 	if (q.front == q.rear) {
-		return false;//¶Ó¿Õ²»ÄÜ³ö¶Ó
+		return false;//é˜Ÿç©ºä¸èƒ½å‡ºé˜Ÿ
 	}
 	
 	x = q.data[q.front];
@@ -53,9 +53,9 @@ bool DeQueue(Queue& q, int &x) {
 	q.front = (q.front + 1) % MAXSIZE;
 	return true;
 }
-//¶ÓÁĞÔªËØ¸öÊı
+//é˜Ÿåˆ—å…ƒç´ ä¸ªæ•°
 //(rear+size-front)%size
-//¶ÓÁĞÖĞµÄÔªËØ¸öÊı
+//é˜Ÿåˆ—ä¸­çš„å…ƒç´ ä¸ªæ•°
 int QueueLength(Queue& q) {
 	return (q.rear + MAXSIZE - q.front) % MAXSIZE;
 }
