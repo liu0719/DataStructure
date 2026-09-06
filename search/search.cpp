@@ -1,11 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<windows.h>
 #define MAXSIZE 100
 typedef struct SSTable {
 	int *elem;
-	int MAXLEN, length;//×î´ó³¤¶È£¬Êµ¼Ê³¤¶È
+	int MAXLEN, length;//æœ€å¤§é•¿åº¦ï¼Œå®é™…é•¿åº¦
 }SSTable;
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 bool InitSSTable(SSTable &st) {
 	st.elem = (int*)malloc(sizeof(int*));
 	if (!st.elem)return false;
@@ -13,16 +14,16 @@ bool InitSSTable(SSTable &st) {
 	st.length = 0;
 	return true;
 }
-//mallocÀ©Èİ
+//mallocæ‰©å®¹
 bool Increase_malloc(SSTable &st) {
 	int* p = st.elem;
-	//Ã¿´Î·­Á½±¶
+	//æ¯æ¬¡ç¿»ä¸¤å€
 	st.elem = (int*)malloc(2 * st.MAXLEN * sizeof(int));
-	//À©ÈİÊ§°Ü
+	//æ‰©å®¹å¤±è´¥
 	if (!st.elem) {
 		return false;
 	}
-	//ÖØĞÂ¸³Öµ»ØÀ´
+	//é‡æ–°èµ‹å€¼å›æ¥
 	for (int i = 0; i < st.length; i++) {
 		st.elem[i] = p[i];
 	}
@@ -35,12 +36,12 @@ bool Increase_reallloc(SSTable &st) {
 	if (!st.elem) return false;
 	return true;
 }
-//²åÈë
+//æ’å…¥
 bool InSert(SSTable &st, int i, int key) {
 	if (i<1 || i>st.length + 1) {
 		return false;
 	}
-	//Á½ÖÖÀ©Èİ·½Ê½
+	//ä¸¤ç§æ‰©å®¹æ–¹å¼
 	//if (Increase_malloc(st)) {
 	//	return false;
 	//}
@@ -52,12 +53,12 @@ bool InSert(SSTable &st, int i, int key) {
 	if (!err) {
 		return false;
 	}
-	//½«Êı×é´ÓÄ©Î²µ½µÚi-1¸öÊıÖµÏòºóÅ²
+	//å°†æ•°ç»„ä»æœ«å°¾åˆ°ç¬¬i-1ä¸ªæ•°å€¼å‘åæŒª
 	for (int  j = st.length; j >=i; j--)
 	{
 		st.elem[j] = st.elem[j - 1];
 	}
-	//¸³Öµ
+	//èµ‹å€¼
 	st.elem[i-1] = key;
 	st.length++;
 	return true;
@@ -68,8 +69,8 @@ bool IsEmpty(SSTable &st) {
 	}
 	return true;
 }
-//°´Î»ÖÃÉ¾³ı
-bool Delete(SSTable &st,int i,int &e) {//iÎªµÚ¼¸¸ö×Ö·û£¬
+//æŒ‰ä½ç½®åˆ é™¤
+bool Delete(SSTable &st,int i,int &e) {//iä¸ºç¬¬å‡ ä¸ªå­—ç¬¦ï¼Œ
 	if (st.length == 0 || i<1 || i>st.length) {
 		return false;
 	}
@@ -82,8 +83,8 @@ bool Delete(SSTable &st,int i,int &e) {//iÎªµÚ¼¸¸ö×Ö·û£¬
 	return true;
 }
 void Print(SSTable &st) {
-	printf("µ±Ç°ÈİÁ¿:%d", st.MAXLEN);
-	printf("\nµ±Ç°³¤¶È:%d", st.length);
+	printf("å½“å‰å®¹é‡:%d", st.MAXLEN);
+	printf("\nå½“å‰é•¿åº¦:%d", st.length);
 	printf("\n");
 	for (int i = 0; i < st.length; i++)
 	{
@@ -91,26 +92,26 @@ void Print(SSTable &st) {
 	}
 }
 
-//Ë³Ğò²éÕÒ,·µ»ØÏÂ±ê
+//é¡ºåºæŸ¥æ‰¾,è¿”å›ä¸‹æ ‡
 int Search_Seq(SSTable &st, int e) {
 	int i = 0;
 	for (i; i < st.length && st.elem[i] != e; i++){}
 	return i==st.length?-1:i;
 }
-//Ë³Ğò²éÕÒ£¨ÉÚ±ø£©0Î»ÖÃ¿Õ³öÀ´Áô¸ø²éÕÒÔªËØ£¬µ¹×Å
+//é¡ºåºæŸ¥æ‰¾ï¼ˆå“¨å…µï¼‰0ä½ç½®ç©ºå‡ºæ¥ç•™ç»™æŸ¥æ‰¾å…ƒç´ ï¼Œå€’ç€
 int Search_Seq_Soldier(SSTable &st,int e) {
 	st.elem[0] = e;
 	int i = st.length;
 	for (i; st.elem[i] != e; i++) {}
 	return i;
 }
-//Ë³Ğò²éÕÒÊ÷£¬
-//¸ÅÂÊ²»ÏàÍ¬Ê±£¬°´¸ÅÂÊ½µĞòÅÅ£¬¿ÉÒÔÌá¸ß³É¹¦²éÕÒµÄ¸ÅÂÊ£¬
-// Ê§°ÜµÄ¸ÅÂÊ»á½µµ½Õı³£Ë®Æ½£¨°´¸ÅÂÊÅÅ»áÊ§È¥Ë³Ğò£¬eg:ÉıĞò½µĞòµÈ)¡£
+//é¡ºåºæŸ¥æ‰¾æ ‘ï¼Œ
+//æ¦‚ç‡ä¸ç›¸åŒæ—¶ï¼ŒæŒ‰æ¦‚ç‡é™åºæ’ï¼Œå¯ä»¥æé«˜æˆåŠŸæŸ¥æ‰¾çš„æ¦‚ç‡ï¼Œ
+// å¤±è´¥çš„æ¦‚ç‡ä¼šé™åˆ°æ­£å¸¸æ°´å¹³ï¼ˆæŒ‰æ¦‚ç‡æ’ä¼šå¤±å»é¡ºåºï¼Œeg:å‡åºé™åºç­‰)ã€‚
 
-//ÕÛ°ë²éÕÒ£¨¶ş·Ö²éÕÒ£©
-//¶ş·ÖÖ»ÊÊÓÃÓÚÓĞĞòµÄË³Ğò±í¡¢£¬ÉıĞò½µĞò¡£
-//Á´±í²»ÄÜÓÃ¶ş·Ö
+//æŠ˜åŠæŸ¥æ‰¾ï¼ˆäºŒåˆ†æŸ¥æ‰¾ï¼‰
+//äºŒåˆ†åªé€‚ç”¨äºæœ‰åºçš„é¡ºåºè¡¨ã€ï¼Œå‡åºé™åºã€‚
+//é“¾è¡¨ä¸èƒ½ç”¨äºŒåˆ†
 int Binary_Search(SSTable st,int key) {
 	int left = 0, right = st.length - 1,mid=0;
 	while (left<= right) {
@@ -127,7 +128,7 @@ int Binary_Search(SSTable st,int key) {
 	}
 	return -1;
 }
-//µİ¹é¶ş·Ö²éÕÒ
+//é€’å½’äºŒåˆ†æŸ¥æ‰¾
 int Binary_Search_DiGui(SSTable st, int key, int low, int high) {
 	if (low > high)return 0;
 	int mid = (low + high) / 2;
@@ -141,7 +142,7 @@ int Binary_Search_DiGui(SSTable st, int key, int low, int high) {
 		return mid;
 	}
 }
-//´óÌâ
+//å¤§é¢˜
 //6
 bool Question6(int A[MAXSIZE][MAXSIZE], int n, int key) {
 	int i = 0, j = n - 1;
@@ -159,16 +160,16 @@ bool Question6(int A[MAXSIZE][MAXSIZE], int n, int key) {
 	return false;
 }
 
-//·Ö¿é²éÕÒ  Ë÷ÒıË³Ğò²éÕÒ
-//¾ÍÊÇ²éÕÒ±í½øĞĞÔ¤´¦Àí£¬·ÖÎª¼¸¿é£¬Ã¿¿éÑ¡³öÒ»¸ö±êÖ¾×é³ÉË÷Òı±í£¬
-//²éÕÒÊ±£¬ÏÈ²éÕÒË÷Òı±í£¬ÔÙ½øÈë¶ÔÓ¦µÄ¿é½øĞĞ²éÕÒ¡£
+//åˆ†å—æŸ¥æ‰¾  ç´¢å¼•é¡ºåºæŸ¥æ‰¾
+//å°±æ˜¯æŸ¥æ‰¾è¡¨è¿›è¡Œé¢„å¤„ç†ï¼Œåˆ†ä¸ºå‡ å—ï¼Œæ¯å—é€‰å‡ºä¸€ä¸ªæ ‡å¿—ç»„æˆç´¢å¼•è¡¨ï¼Œ
+//æŸ¥æ‰¾æ—¶ï¼Œå…ˆæŸ¥æ‰¾ç´¢å¼•è¡¨ï¼Œå†è¿›å…¥å¯¹åº”çš„å—è¿›è¡ŒæŸ¥æ‰¾ã€‚
 
-//¶ş²æÅÅĞòÊ÷ £¬£¨¶ş²æ²éÕÒÊ÷£©
+//äºŒå‰æ’åºæ ‘ ï¼Œï¼ˆäºŒå‰æŸ¥æ‰¾æ ‘ï¼‰
 typedef struct BiNode {
 	int data;
 	BiNode* lchild, * rchild;
 }BiNode,*BiTree;
-//¶ş²æÊ÷ĞÂÔö½Úµã(·Çµİ¹é£©(²»¶Ô£©
+//äºŒå‰æ ‘æ–°å¢èŠ‚ç‚¹(éé€’å½’ï¼‰(ä¸å¯¹ï¼‰
 bool BiTree_Insert(BiTree t, int key) {
 	if (!t) {
 		BiNode *s = (BiNode*)malloc(sizeof(BiNode));
@@ -202,7 +203,7 @@ bool BiTree_Insert(BiTree t, int key) {
 	}
 	return true;
 }
-//¶ş²æÊ÷ĞÂÔö½Úµã(µİ¹éÊµÏÖ£©
+//äºŒå‰æ ‘æ–°å¢èŠ‚ç‚¹(é€’å½’å®ç°ï¼‰
 bool BiTree_Insert_DIGUI(BiTree &t, int key) {
 	if (!t) {
 		t = (BiTree)malloc(sizeof(BiNode));
@@ -221,7 +222,7 @@ bool BiTree_Insert_DIGUI(BiTree &t, int key) {
 		return false;
 	}
 }
-//¹¹Ôì¶ş²æÅÅĞòÊ÷
+//æ„é€ äºŒå‰æ’åºæ ‘
 bool Create_BiTree(BiTree &t, int a[],int length) {
 	t = NULL;
 	bool err = true;
@@ -234,7 +235,7 @@ bool Create_BiTree(BiTree &t, int a[],int length) {
 	}
 	return true;
 }
-//²ãĞò±éÀú¶ş²æÅÅĞòÊ÷(´òÓ¡£©
+//å±‚åºéå†äºŒå‰æ’åºæ ‘(æ‰“å°ï¼‰
 void Print(BiTree t) {
 	BiNode *q[MAXSIZE] = { 0 };
 	int front = -1,rear=-1,level=0,last=0;
@@ -257,7 +258,7 @@ void Print(BiTree t) {
 		}
 	}
 }
-//¶ş²æÅÅĞòÊ÷µÄ²éÕÒ
+//äºŒå‰æ’åºæ ‘çš„æŸ¥æ‰¾
 BiNode* BSTSearch(BiTree t, int key) {
 	while (t&&t->data!=key)
 	{
@@ -270,7 +271,7 @@ BiNode* BSTSearch(BiTree t, int key) {
 	}
 	return t;
 }
-//¶ş²æÅÅĞòÊ÷µÄ²éÕÒµİ¹éÊµÏÖ
+//äºŒå‰æ’åºæ ‘çš„æŸ¥æ‰¾é€’å½’å®ç°
 BiNode* BSTSearch_DIGUI(BiTree t, int key) {
 	if (t == NULL) return NULL;
 	if (key == t->data) {
@@ -284,6 +285,8 @@ BiNode* BSTSearch_DIGUI(BiTree t, int key) {
 	}
 }
 int main() {
+    // è®¾ç½®æ§åˆ¶å°è¾“å‡ºä¸ºUTF-8ï¼Œè§£å†³ä¸­æ–‡ä¹±ç 
+	SetConsoleOutputCP(65001);  
 	SSTable st;
 	InitSSTable(st);
 	Print(st);
@@ -295,9 +298,9 @@ int main() {
 	int e = 0;
 	//Delete(st, 5, e);
 	Print(st);
-	printf("Î»ÖÃÎª£º%d\n", Search_Seq(st, 13));
-	printf("Î»ÖÃÎª£º%d\n", Binary_Search(st,9));
-	printf("Î»ÖÃÎª£º%d\n", Binary_Search_DiGui(st,9,0,st.length-1));
+	printf("ä½ç½®ä¸ºï¼š%d\n", Search_Seq(st, 13));
+	printf("ä½ç½®ä¸ºï¼š%d\n", Binary_Search(st,9));
+	printf("ä½ç½®ä¸ºï¼š%d\n", Binary_Search_DiGui(st,9,0,st.length-1));
 	BiTree t;
 	//Create_BiTree(t, st.elem,st.length);
 	//Print(t);
@@ -305,15 +308,15 @@ int main() {
 
 	bool err=Create_BiTree(t, a, 11);
 	if (!err) {
-		printf("³öÏÖ´´½¨´íÎó!\n");
+		printf("å‡ºç°åˆ›å»ºé”™è¯¯!\n");
 	}
 	Print(t);
 	BiNode *Result=BSTSearch(t, 2);
 	if (Result == NULL) {
-		printf("Ã»ÕÒµ½\n");
+		printf("æ²¡æ‰¾åˆ°\n");
 	}
 	else {
-		printf("ÕÒµ½µÄÖµÎª:%d\n", Result->lchild->data);
+		printf("æ‰¾åˆ°çš„å€¼ä¸º:%d\n", Result->lchild->data);
 	}
 	
 
