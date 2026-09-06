@@ -1,3 +1,0 @@
-﻿  栈的应用.cpp
-E:\c\算法_studio\栈\栈的应用.cpp(103,36): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-  栈.vcxproj -> E:\c\算法_studio\栈\x64\Debug\栈.exe

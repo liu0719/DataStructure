@@ -1,4 +1,0 @@
-﻿D:\Apps\Visual Studio IDE\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(1134,5): error MSB6006: “link.exe”已退出，代码为 1169。
-链式队列.obj : error LNK2005: "bool __cdecl IsEmpty(struct LQueue &)" (?IsEmpty@@YA_NAEAULQueue@@@Z) 已经在 大题.obj 中定义
-链式队列.obj : error LNK2005: "bool __cdecl InitLQueue(struct LQueue &)" (?InitLQueue@@YA_NAEAULQueue@@@Z) 已经在 大题.obj 中定义
-E:\c\算法_studio\队列\x64\Release\队列.exe : fatal error LNK1169: 找到一个或多个多重定义的符号

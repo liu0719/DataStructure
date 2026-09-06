@@ -1,2 +1,0 @@
-E:\c\算法\线性表\x64\Debug\线性表.exe
-E:\c\算法_studio\线性表\x64\Debug\线性表.exe
